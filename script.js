@@ -2057,7 +2057,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
-  // Update createLeaderDot function to fix GitHub Pages image loading
+  // Update createLeaderDot function to use lowercase image paths
   function createLeaderDot(leader) {
     if (
       !leader.position ||
@@ -2090,16 +2090,16 @@ document.addEventListener("DOMContentLoaded", async function () {
     container.style.top = `${yPos + yOffset}%`;
     container.style.transform = "translate(-50%, -50%)"; // Center the container
 
-    // Special handling for Mark Zuckerberg's versions
+    // IMPORTANT FIX: Use lowercase for image filenames
+    // Convert image name to lowercase for GitHub Pages compatibility
     let imageName = leader.name.toLowerCase().replace(/\s+/g, "_");
 
     // Handle Mark Zuckerberg 2.0 special case
     if (leader.name === "Mark Zuckerberg 2.0") {
-      imageName = "mark_zuckerberg"; // Use the base image
+      imageName = "mark_zuckerberg"; // Use the base image (lowercase)
     }
 
     // Create an image element for the leader
-
     // FIX: Get the repository name for GitHub Pages
     const repoPath = window.location.pathname.split("/")[1];
     const isGitHubPages = window.location.hostname.includes("github.io");
@@ -2107,10 +2107,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Use the correct image path based on hosting environment
     let imagePath;
     if (isGitHubPages && repoPath) {
-      // GitHub Pages path with repository name
+      // GitHub Pages path with repository name (use lowercase for image filename)
       imagePath = `/${repoPath}/tech_leaders_images/${imageName}.png`;
     } else {
-      // Local development path
+      // Local development path (use lowercase for image filename)
       imagePath = `./tech_leaders_images/${imageName}.png`;
     }
 
