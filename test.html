@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Platform Governance Matrix</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      svg {
+        display: block;
+        margin: 0 auto;
+      }
+      .axis-label {
+        font-size: 14px;
+        fill: #555;
+      }
+      .tooltip {
+        position: absolute;
+        background: white;
+        border: 1px solid #ccc;
+        padding: 5px;
+        pointer-events: none;
+        font-size: 12px;
+      }
+      .slider {
+        width: 300px;
+        margin: 20px auto;
+        display: flex;
+        justify-content: center;
+      }
+      .legend {
+        width: 600px;
+        margin: 10px auto;
+        display: flex;
+        justify-content: space-around;
+        font-size: 12px;
+      }
+      .legend div {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .legend-color {
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="legend">
+      <div>
+        <span class="legend-color" style="background: steelblue"></span>
+        Platform
+      </div>
+    </div>
+    <svg width="600" height="650"></svg>
+    <div class="slider">
+      <input
+        type="range"
+        id="yearSlider"
+        min="2015"
+        max="2025"
+        step="5"
+        value="2015"
+      />
+      <span id="yearLabel">2015</span>
+    </div>
+    <script>
+      const width = 600,
+        height = 650;
+      const svg = d3.select("svg");
+
+      const margin = 50;
+      const xScale = d3
+        .scaleLinear()
+        .domain([-1, 1])
+        .range([margin, width - margin]);
+      const yScale = d3
+        .scaleLinear()
+        .domain([-1, 1])
+        .range([height - margin - 40, margin]);
+
+      const data = {
+        2015: [
+          { name: "Twitter", x: -0.6, y: 0.2 },
+          { name: "Facebook", x: -0.3, y: 0.4 },
+          { name: "YouTube", x: 0.1, y: 0.1 },
+          { name: "Reddit", x: -0.4, y: -0.1 },
+        ],
+        2020: [
+          { name: "Twitter", x: -0.4, y: 0.3 },
+          { name: "Facebook", x: 0.0, y: 0.2 },
+          { name: "YouTube", x: 0.3, y: 0.1 },
+          { name: "Reddit", x: -0.3, y: -0.2 },
+        ],
+        2025: [
+          { name: "Twitter", x: 0.2, y: 0.1 },
+          { name: "Facebook", x: 0.3, y: 0.0 },
+          { name: "YouTube", x: 0.4, y: 0.2 },
+          { name: "Reddit", x: -0.2, y: -0.3 },
+        ],
+      };
+
+      const descriptions = {
+        Twitter:
+          "Historically more permissive, later increased enforcement of misinformation rules.",
+        Facebook:
+          "Focused on community standards and algorithmic content moderation.",
+        YouTube:
+          "Emphasizes policy-based moderation for misinformation and community guidelines.",
+        Reddit:
+          "Primarily community-moderated with platform-wide enforcement for critical issues.",
+      };
+
+      const tooltip = d3
+        .select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
+      function drawAxes() {
+        svg
+          .append("line")
+          .attr("x1", xScale(0))
+          .attr("y1", margin)
+          .attr("x2", xScale(0))
+          .attr("y2", height - margin - 40)
+          .attr("stroke", "#999");
+        svg
+          .append("line")
+          .attr("y1", yScale(0))
+          .attr("x1", margin)
+          .attr("y2", yScale(0))
+          .attr("x2", width - margin)
+          .attr("stroke", "#999");
+
+        svg
+          .append("text")
+          .attr("class", "axis-label")
+          .attr("x", width - margin)
+          .attr("y", yScale(0) - 10)
+          .text("Right");
+        svg
+          .append("text")
+          .attr("class", "axis-label")
+          .attr("x", margin + 5)
+          .attr("y", yScale(0) - 10)
+          .text("Left");
+        svg
+          .append("text")
+          .attr("class", "axis-label")
+          .attr("x", xScale(0) + 10)
+          .attr("y", margin)
+          .text("Authoritarian");
+        svg
+          .append("text")
+          .attr("class", "axis-label")
+          .attr("x", xScale(0) + 10)
+          .attr("y", height - margin - 40)
+          .text("Libertarian");
+      }
+
+      function update(year) {
+        const points = svg.selectAll("circle").data(data[year], (d) => d.name);
+
+        points.join(
+          (enter) =>
+            enter
+              .append("circle")
+              .attr("cx", (d) => xScale(d.x))
+              .attr("cy", (d) => yScale(d.y))
+              .attr("r", 6)
+              .attr("fill", "steelblue")
+              .on("mouseover", (event, d) => {
+                tooltip.transition().duration(200).style("opacity", 1);
+                tooltip
+                  .html(
+                    `<strong>${d.name}</strong><br>${
+                      descriptions[d.name] || "No description available"
+                    }`
+                  )
+                  .style("left", event.pageX + 5 + "px")
+                  .style("top", event.pageY - 28 + "px");
+              })
+              .on("mouseout", () =>
+                tooltip.transition().duration(500).style("opacity", 0)
+              ),
+
+          (update) =>
+            update
+              .transition()
+              .duration(500)
+              .attr("cx", (d) => xScale(d.x))
+              .attr("cy", (d) => yScale(d.y))
+        );
+      }
+
+      drawAxes();
+      update(2015);
+
+      const slider = document.getElementById("yearSlider");
+      const yearLabel = document.getElementById("yearLabel");
+      slider.addEventListener("input", () => {
+        const year = +slider.value;
+        yearLabel.textContent = year;
+        update(year);
+      });
+    </script>
+  </body>
+</html>

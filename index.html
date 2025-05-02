@@ -3,214 +3,399 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Platform Governance Matrix</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <title>The Political Matrix of Digital Platforms & Policies</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <style>
-      body {
-        font-family: sans-serif;
-        margin: 0;
-        padding: 0;
+      /* Additional styling for the three-column layout */
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
       }
-      svg {
-        display: block;
-        margin: 0 auto;
+
+      @media (min-width: 1024px) {
+        .grid {
+          grid-template-columns: 250px 1fr;
+        }
       }
-      .axis-label {
-        font-size: 14px;
-        fill: #555;
+
+      @media (min-width: 1200px) {
+        .grid {
+          grid-template-columns: 250px 1fr 300px; /* Left sidebar, main content, right panel */
+        }
+
+        .side-panel {
+          display: block !important;
+        }
       }
-      .tooltip {
-        position: absolute;
-        background: white;
-        border: 1px solid #ccc;
-        padding: 5px;
-        pointer-events: none;
-        font-size: 12px;
+
+      /* Right panel styling */
+      .side-panel {
+        display: none; /* Hidden on mobile */
       }
-      .slider {
-        width: 300px;
-        margin: 20px auto;
+
+      .platform-detail {
+        animation: fadeIn 0.3s ease;
+      }
+
+      .platform-detail-header {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--border-color);
       }
-      .legend {
-        width: 600px;
-        margin: 10px auto;
-        display: flex;
-        justify-content: space-around;
-        font-size: 12px;
-      }
-      .legend div {
+
+      .platform-detail-icon {
         display: flex;
         align-items: center;
-        gap: 5px;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
       }
-      .legend-color {
-        width: 10px;
-        height: 10px;
-        display: inline-block;
+
+      .platform-detail-icon img {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+      }
+
+      .platform-detail-icon i {
+        font-size: 24px;
+      }
+
+      .position-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .position-label {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        margin-right: 0.5rem;
+      }
+
+      .position-values {
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+
+      .detail-description {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        margin: 1rem 0;
+      }
+
+      .platform-detail-footer {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-top: 1rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid var(--border-color);
+      }
+
+      .empty-state {
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-muted);
+        font-size: 0.875rem;
+        text-align: center;
+        padding: 1rem;
+        border: 1px dashed var(--border-color);
+        border-radius: var(--radius);
+      }
+
+      /* Add responsive adjustments */
+      @media (max-width: 1199px) {
+        .side-panel-mobile {
+          display: block;
+          margin-top: 2rem;
+        }
+
+        .side-panel-desktop {
+          display: none;
+        }
+      }
+
+      @media (min-width: 1200px) {
+        .side-panel-mobile {
+          display: none;
+        }
+
+        .side-panel-desktop {
+          display: block;
+        }
       }
     </style>
   </head>
   <body>
-    <div class="legend">
-      <div>
-        <span class="legend-color" style="background: steelblue"></span>
-        Platform
+    <div class="container">
+      <header>
+        <div class="header-content">
+          <h1 class="gradient-text">Platform Policy Evolution Matrix</h1>
+          <button id="info-button" class="btn btn-outline">
+            <i class="fas fa-info-circle"></i>
+            About
+          </button>
+        </div>
+        <p class="subtitle">
+          Tracking how social media platforms have shifted their content
+          policies across the political spectrum from 2015 to 2025
+        </p>
+      </header>
+
+      <!-- View selector buttons -->
+      <div class="view-selector">
+        <button id="view-platforms" class="view-btn active">
+          <i class="fas fa-globe"></i> Platforms
+        </button>
+        <button id="view-policies" class="view-btn">
+          <i class="fas fa-file-alt"></i> Policies
+        </button>
+        <button id="view-leadership" class="view-btn">
+          <i class="fas fa-users"></i> Leadership
+        </button>
+      </div>
+
+      <div class="grid">
+        <!-- Left sidebar - Platform filters -->
+        <div class="sidebar">
+          <div class="card">
+            <div class="card-header">
+              <h2>Platforms</h2>
+              <button id="toggle-filters" class="btn btn-ghost mobile-only">
+                <i class="fas fa-chevron-down"></i>
+              </button>
+            </div>
+
+            <div id="filters-content" class="filters-content">
+              <div class="filter-actions">
+                <button id="select-all" class="btn btn-outline btn-sm">
+                  Select All
+                </button>
+                <button id="clear-all" class="btn btn-outline btn-sm">
+                  Clear All
+                </button>
+              </div>
+
+              <div class="platform-list" id="platform-list">
+                <!-- Platform checkboxes will be inserted here by JavaScript -->
+              </div>
+
+              <div id="selected-event-details" class="selected-event hidden">
+                <h3>Selected Event:</h3>
+                <p id="selected-event-description"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main content - Matrix and Timeline -->
+        <div class="main-content">
+          <!-- Matrix visualization -->
+          <div class="card">
+            <div class="matrix-container">
+              <div class="matrix-axes">
+                <div class="axis-horizontal"></div>
+                <div class="axis-vertical"></div>
+
+                <div class="axis-label top">Authoritarian (+1)</div>
+                <div class="axis-label bottom">Libertarian (-1)</div>
+                <div class="axis-label left">Left (-1)</div>
+                <div class="axis-label right">Right (+1)</div>
+              </div>
+
+              <!-- <div class="matrix-disclaimer">
+                Platform positions based on ban activity and content moderation
+                policies
+              </div> -->
+
+              <div id="matrix" class="matrix">
+                <!-- Platform dots will be inserted here by JavaScript -->
+              </div>
+
+              <div class="year-badge">
+                <span id="current-year">2015</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Timeline slider -->
+          <div class="card">
+            <h2>Timeline</h2>
+            <div class="timeline-slider">
+              <input
+                type="range"
+                id="year-slider"
+                min="2015"
+                max="2025"
+                value="2015"
+                step="1"
+              />
+              <div class="slider-labels">
+                <span>2015</span>
+                <span>2025</span>
+              </div>
+            </div>
+
+            <div class="timeline-controls">
+              <button id="play-timeline" class="btn btn-outline">
+                <i class="fa-solid fa-play"></i> Play
+              </button>
+            </div>
+
+            <div class="timeline-events">
+              <h3>Key Events</h3>
+              <div id="events-container" class="events-container">
+                <!-- Timeline events will be inserted here by JavaScript -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Platform cards (only shown on smaller screens) -->
+          <div id="platform-cards" class="platform-cards">
+            <!-- Platform cards will be inserted here by JavaScript -->
+          </div>
+
+          <!-- Side panel for mobile view -->
+          <div class="card side-panel-mobile">
+            <h2>Details</h2>
+            <div class="empty-state" id="empty-details-mobile">
+              <p>Select a platform from the matrix to view details and reasons that informed account</p>
+            </div>
+            <div class="platform-detail hidden" id="platform-detail-mobile">
+              <div class="platform-detail-header">
+                <h3 id="detail-platform-name-mobile"></h3>
+                <div
+                  class="platform-detail-icon"
+                  id="detail-platform-icon-mobile"
+                ></div>
+              </div>
+              <div class="platform-detail-content">
+                <div class="position-info">
+                  <div class="position-label">Position:</div>
+                  <div class="position-values">
+                    <span id="detail-x-position-mobile"></span>,
+                    <span id="detail-y-position-mobile"></span>
+                  </div>
+                </div>
+                <div class="detail-description" id="detail-description-mobile">
+                  <!-- Platform description will go here -->
+                </div>
+              </div>
+              <div class="platform-detail-footer">
+                <span id="detail-position-text-mobile"></span>
+                <span id="detail-year-mobile"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right side panel - Platform details -->
+        <div class="side-panel side-panel-desktop" id="details-panel">
+          <div class="card">
+            <h2>Platform Details</h2>
+            <div class="empty-state" id="empty-details">
+              <p>Select a platform from the matrix to view details</p>
+            </div>
+            <div class="platform-detail hidden" id="platform-detail">
+              <div class="platform-detail-header">
+                <h3 id="detail-platform-name"></h3>
+                <div
+                  class="platform-detail-icon"
+                  id="detail-platform-icon"
+                ></div>
+              </div>
+              <div class="platform-detail-content">
+                <div class="position-info">
+                  <div class="position-label">Position:</div>
+                  <div class="position-values">
+                    <span id="detail-x-position"></span>,
+                    <span id="detail-y-position"></span>
+                  </div>
+                </div>
+                <div class="detail-description" id="detail-description">
+                  <!-- Platform description will go here -->
+                </div>
+              </div>
+              <div class="platform-detail-footer">
+                <span id="detail-position-text"></span>
+                <span id="detail-year"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Related events in the side panel -->
+          <!-- <div class="card">
+            <h2>Related Events</h2>
+            <div class="events-container" id="related-events-container">
+              <div class="event-empty">
+                Select a platform to see related events
+              </div>
+            </div> -->
+          </div>
+        </div>
       </div>
     </div>
-    <svg width="600" height="650"></svg>
-    <div class="slider">
-      <input
-        type="range"
-        id="yearSlider"
-        min="2015"
-        max="2025"
-        step="5"
-        value="2015"
-      />
-      <span id="yearLabel">2015</span>
+
+    <!-- Info Modal -->
+    <div id="info-modal" class="modal hidden">
+      <div class="modal-overlay"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>About This Visualization</h2>
+          <button id="close-modal" class="btn btn-ghost">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>
+            This interactive visualization maps how major social media platforms
+            have evolved their content policies and moderation approaches over
+            time, positioned on a political matrix.
+          </p>
+          <h3>How to use:</h3>
+          <ul>
+            <li>
+              Use the timeline slider to see how platforms have shifted over
+              time
+            </li>
+            <li>
+              Filter platforms using the checkboxes to focus on specific
+              companies
+            </li>
+            <li>
+              Click on a platform to see detailed information about their policy
+              changes
+            </li>
+            <li>Explore key events that influenced policy shifts</li>
+          </ul>
+          <h3>About the matrix:</h3>
+          <p>
+            The horizontal axis represents Left-Right political orientation from
+            -1 (left) to +1 (right). The vertical axis represents
+            Authoritarian-Libertarian approaches from -1 (libertarian) to +1
+            (authoritarian).
+          </p>
+          <p class="note">
+            Data source: Platform policy positions from 2015-2025 based on
+            content moderation practices and policy changes.
+          </p>
+        </div>
+      </div>
     </div>
-    <script>
-      const width = 600,
-        height = 650;
-      const svg = d3.select("svg");
 
-      const margin = 50;
-      const xScale = d3
-        .scaleLinear()
-        .domain([-1, 1])
-        .range([margin, width - margin]);
-      const yScale = d3
-        .scaleLinear()
-        .domain([-1, 1])
-        .range([height - margin - 40, margin]);
-
-      const data = {
-        2015: [
-          { name: "Twitter", x: -0.6, y: 0.2 },
-          { name: "Facebook", x: -0.3, y: 0.4 },
-          { name: "YouTube", x: 0.1, y: 0.1 },
-          { name: "Reddit", x: -0.4, y: -0.1 },
-        ],
-        2020: [
-          { name: "Twitter", x: -0.4, y: 0.3 },
-          { name: "Facebook", x: 0.0, y: 0.2 },
-          { name: "YouTube", x: 0.3, y: 0.1 },
-          { name: "Reddit", x: -0.3, y: -0.2 },
-        ],
-        2025: [
-          { name: "Twitter", x: 0.2, y: 0.1 },
-          { name: "Facebook", x: 0.3, y: 0.0 },
-          { name: "YouTube", x: 0.4, y: 0.2 },
-          { name: "Reddit", x: -0.2, y: -0.3 },
-        ],
-      };
-
-      const descriptions = {
-        Twitter:
-          "Historically more permissive, later increased enforcement of misinformation rules.",
-        Facebook:
-          "Focused on community standards and algorithmic content moderation.",
-        YouTube:
-          "Emphasizes policy-based moderation for misinformation and community guidelines.",
-        Reddit:
-          "Primarily community-moderated with platform-wide enforcement for critical issues.",
-      };
-
-      const tooltip = d3
-        .select("body")
-        .append("div")
-        .attr("class", "tooltip")
-        .style("opacity", 0);
-
-      function drawAxes() {
-        svg
-          .append("line")
-          .attr("x1", xScale(0))
-          .attr("y1", margin)
-          .attr("x2", xScale(0))
-          .attr("y2", height - margin - 40)
-          .attr("stroke", "#999");
-        svg
-          .append("line")
-          .attr("y1", yScale(0))
-          .attr("x1", margin)
-          .attr("y2", yScale(0))
-          .attr("x2", width - margin)
-          .attr("stroke", "#999");
-
-        svg
-          .append("text")
-          .attr("class", "axis-label")
-          .attr("x", width - margin)
-          .attr("y", yScale(0) - 10)
-          .text("Right");
-        svg
-          .append("text")
-          .attr("class", "axis-label")
-          .attr("x", margin + 5)
-          .attr("y", yScale(0) - 10)
-          .text("Left");
-        svg
-          .append("text")
-          .attr("class", "axis-label")
-          .attr("x", xScale(0) + 10)
-          .attr("y", margin)
-          .text("Authoritarian");
-        svg
-          .append("text")
-          .attr("class", "axis-label")
-          .attr("x", xScale(0) + 10)
-          .attr("y", height - margin - 40)
-          .text("Libertarian");
-      }
-
-      function update(year) {
-        const points = svg.selectAll("circle").data(data[year], (d) => d.name);
-
-        points.join(
-          (enter) =>
-            enter
-              .append("circle")
-              .attr("cx", (d) => xScale(d.x))
-              .attr("cy", (d) => yScale(d.y))
-              .attr("r", 6)
-              .attr("fill", "steelblue")
-              .on("mouseover", (event, d) => {
-                tooltip.transition().duration(200).style("opacity", 1);
-                tooltip
-                  .html(
-                    `<strong>${d.name}</strong><br>${
-                      descriptions[d.name] || "No description available"
-                    }`
-                  )
-                  .style("left", event.pageX + 5 + "px")
-                  .style("top", event.pageY - 28 + "px");
-              })
-              .on("mouseout", () =>
-                tooltip.transition().duration(500).style("opacity", 0)
-              ),
-
-          (update) =>
-            update
-              .transition()
-              .duration(500)
-              .attr("cx", (d) => xScale(d.x))
-              .attr("cy", (d) => yScale(d.y))
-        );
-      }
-
-      drawAxes();
-      update(2015);
-
-      const slider = document.getElementById("yearSlider");
-      const yearLabel = document.getElementById("yearLabel");
-      slider.addEventListener("input", () => {
-        const year = +slider.value;
-        yearLabel.textContent = year;
-        update(year);
-      });
-    </script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>
