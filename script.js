@@ -2100,7 +2100,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Create an image element for the leader - this will be directly in the container, no dot wrapper
     const img = document.createElement("img");
-    img.src = `tech_leaders_images/${imageName}.png`;
+    img.src = `./tech_leaders_images/${imageName}.png`;
     img.alt = leader.name;
     img.className = "leader-image";
 
