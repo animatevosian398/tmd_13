@@ -1,0 +1,320 @@
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+    Arial, sans-serif;
+  background: #f5f5f5;
+  margin: 40px auto;
+  color: #1a1a1a;
+  max-width: 960px;
+  line-height: 1.5;
+}
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #1a1a1a;
+}
+h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-top: 0rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+.container {
+  background: #fff;
+  padding: 20px 20px 10px; /* Less bottom padding */
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.timeline-scrubber {
+  fill: #1a73e8;
+  stroke: white;
+  stroke-width: 2;
+  cursor: pointer;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
+}
+
+.timeline-area {
+  fill: transparent !important; /* Make sure it's truly transparent */
+  pointer-events: auto; /* Keep it clickable */
+  cursor: pointer;
+}
+
+/* Hide the range slider since we'll use the scrubber instead */
+.timeline-slider {
+  display: none;
+}
+.nav-button {
+  padding: 10px 20px;
+  background-color: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.nav-button:hover {
+  background-color: #e2e8f0;
+}
+.nav-button.active {
+  background-color: #1a73e8;
+  color: white;
+  border-color: #1a73e8;
+}
+.view {
+  display: none;
+}
+.view.active {
+  display: block;
+}
+.placeholder {
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  border: 1px dashed #cbd5e1;
+  color: #64748b;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+svg {
+  width: 100%;
+  max-width: 880px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #d1d5db;
+  shape-rendering: crispEdges;
+}
+.axis-label {
+  font-size: 14px;
+  font-weight: 600;
+  fill: #1a1a1a;
+}
+.quadrant-label {
+  font-size: 24px;
+  font-weight: 500;
+  fill: #e5e7eb;
+  text-anchor: middle;
+  pointer-events: none;
+}
+.tooltip {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 400;
+  color: #1a1a1a;
+  pointer-events: none;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  max-width: 280px;
+  line-height: 1.4;
+}
+.point-label {
+  font-size: 12px;
+  font-weight: 400;
+  fill: #1a1a1a;
+  pointer-events: none;
+  text-anchor: start; /* Ensure all labels start from left */
+}
+.timeline-controls {
+  margin: 40px auto 20px; /* Space above controls */
+  max-width: 600px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+.timeline-slider {
+  flex-grow: 1;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+}
+.timeline-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: #1a73e8;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.timeline-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: #1a73e8;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+.play-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #1a73e8;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-top: -40px; /* Match with heading position */
+}
+.year-display {
+  font-size: 16px;
+  font-weight: 600;
+  min-width: 60px;
+  text-align: center;
+  margin-top: -20px; /* Move up */
+}
+.facebook-circle {
+  fill: #4267b2;
+}
+.policy-circle {
+  fill: #1a73e8;
+}
+.timeline-svg {
+  width: 100%;
+  max-width: 600px;
+  height: 170px !important; /* Taller to fit all events */
+  margin: 0 auto;
+  margin-top: -10px; /* Only small negative margin since we moved the heading */
+  overflow: visible; /* Ensure text outside SVG bounds is visible */
+}
+.timeline-event-label {
+  font-size: 11px;
+  font-weight: 400;
+  fill: #1a1a1a;
+  text-anchor: middle;
+}
+.timeline-event-marker {
+  fill: #1a73e8;
+  opacity: 0.7;
+  cursor: pointer;
+}
+.timeline-event {
+  font-weight: 500;
+}
+.top-event-label {
+  font-size: 10px;
+  fill: #1a1a1a;
+  text-anchor: middle;
+  dominant-baseline: text-before-edge; /* Better vertical alignment */
+}
+.bottom-event-label {
+  font-size: 10px;
+  fill: #1a1a1a;
+  text-anchor: middle;
+  dominant-baseline: text-after-edge; /* Better vertical alignment */
+}
+.legend {
+  display: flex;
+  gap: 15px;
+  margin: 15px 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+}
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+.legend-color.policy {
+  background-color: #4267b2;
+}
+.timeline-connector-line {
+  stroke: #b0b0b0;
+  stroke-width: 1;
+  stroke-dasharray: 2, 2;
+}
+
+.timeline-event-marker {
+  fill: #1a73e8;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.timeline-event-marker:hover {
+  fill: #1a73e8;
+  opacity: 1;
+  r: 7; /* Slightly larger on hover */
+}
+
+/* Position the Key Events heading */
+#platforms-view h3:nth-of-type(2) {
+  margin-top: -120px; /* Significant negative margin to pull up */
+  margin-bottom: 0;
+  position: relative;
+  z-index: 10;
+  font-weight: 600;
+}
+
+/* Make the matrix more compact */
+#platforms-matrix {
+  margin-bottom: -40px; /* Negative margin to reduce space */
+}
+
+/* Adjust timeline container */
+.timeline-container {
+  margin-top: 0; /* Reset this since we're controlling position with other elements */
+}
+
+/* Reduce paragraph spacing */
+p {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+/* Adjust timeline year labels to ensure they're visible */
+.timeline-axis-year {
+  font-size: 10px;
+  fill: #64748b;
+  text-anchor: middle;
+}
+
+#play-timeline {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+#play-timeline i {
+  margin-right: 0.5rem;
+}
+
+#play-timeline:hover {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}

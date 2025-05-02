@@ -1,0 +1,10 @@
+Platform,Leader,Political_Position_X,Political_Position_Y,Notes
+X (Twitter),Elon Musk,0.7,-0.3,"Registered Independent but has publicly supported Republicans and Trump; appointed to Office of Government Efficiency"
+Instagram/Threads,Adam Mosseri,0.0,0.2,"Officially neutral; initially limited political content recommendations but recently reversed policy to encourage more political discourse"
+Google,Sundar Pichai,-0.3,0.1,"Leans Democratic; donated to Democratic candidates; emphasized importance of accurate voting information amid accusations of platform bias"
+YouTube,Neal Mohan,0.0,0.3,"Officially neutral; platform criticized for hosting right-wing content while implementing policies to demonetize extremist content"
+Reddit,Steve Huffman,-0.6,0.4,"Perceived as left-leaning; studies indicate pro-left bias in top posts; moderation policies led to banning certain right-leaning communities"
+Mastodon,Eugen Rochko,-0.5,0.5,"Opposed far-right platforms using Mastodon's code; emphasized commitment to active moderation against racism, sexism, homophobia, and transphobia"
+TikTok,Shou Zi Chew,0.0,0.0,"Neutral; company sponsored a $50,000 inauguration event for President-elect Donald Trump"
+Meta (2010-2020),Mark Zuckerberg,-0.2,0.0,"Initially aligned with Democrats; promoted connectivity and free expression; emphasized building community and social infrastructure"
+Meta (2021-2025),Mark Zuckerberg 2.0,0.3,0.1,"Increasingly close to Republicans; focused on metaverse investment; scaled back content moderation; faced internal backlash over departure from original social mission"

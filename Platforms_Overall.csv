@@ -1,0 +1,12 @@
+Platform,Affiliation / Bias Scale,Reasoning,Libertarian/Authoritarian,Source Link,Timeline of Key Events,Position (X,Y)
+X (Twitter),"2: Pre-Musk Moderately Left-Leaning; 4: Mixed / Right-leaning amplification","Algorithm amplifies right-leaning content; major governance shifts from pre- to post-Musk","Pre-Musk: Authoritarian Left; Post-Musk: Authoritarian Right","The Verge; NPR; CEPR; X","2016–2024: From content quality initiatives to post-Musk rightward algorithmic shifts","0.6,0.8"
+Facebook,2: Perceived Left-leaning,"Right-wing content performs well despite left-leaning perception","Semi-Authoritarian","PNAS Nexus","2016–2025: Bias response and leadership shifts","-0.2,0.6"
+Instagram,2: Slightly Left-leaning,"Younger base engages with progressive content","Semi-Authoritarian","Academia.edu","2025: Content visibility policies shift toward 'free expression'","-0.3,0.5"
+YouTube,2: Left-leaning algorithm,"Recommends left-leaning content, especially in U.S.","Semi-Authoritarian","PNAS Nexus","Ongoing algorithm adjustments","-0.4,0.5"
+TikTok,2: Left-leaning user base,"Progressive content engagement from young users","Semi-Authoritarian","DocsLib; Wiley library","2023: Leadership changes and moderation practices","-0.4,0.5"
+Reddit,2: Mixed / Left-leaning,"Varied communities but mostly progressive base","Semi-Libertarian","University of Michigan","2020–2023: API policy protests, diversity shifts","-0.3,0.2"
+Gab,5: Right-leaning / Far-right,"Free speech haven for banned alt-right users","Libertarian","Wikipedia","2016–2018: Platform launch and deplatforming incidents","0.9,-0.8"
+Bluesky,1: Left-leaning,"Progressive user base, decentralized architecture","Libertarian","Lab Horizons","2023: Decentralized protocol launch","-0.6,-0.6"
+Threads,2: Left-leaning,"Inherited Meta’s policies, slight rollback in moderation","Semi-Authoritarian","Inside Telecom","2023–2025: Fact-check rollback and 'Community Notes'","-0.3,0.4"
+Truth Social,5: Right-leaning / Pro-Trump,"Pro-Trump user base, reportedly blocks progressive content","Authoritarian?","https://arxiv.org/abs/2406.03354","2021–2022: Platform launch and political branding","0.9,0.9"
+Mastodon,2: Left-leaning,"Community-driven, privacy focused, decentralized","Libertarian","Reuters; Rochko, Mastodon","2016–present: Decentralization spikes after Twitter changes","-0.5,-0.7"

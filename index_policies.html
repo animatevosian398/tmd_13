@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>
+      The Political Matrix of Digital Platforms, Policies, and Tech Leadership
+    </title>
+    <link href="style.css" rel="stylesheet" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>
+        The Political Matrix of Digital Platforms, Policies, and Tech Leadership
+      </h1>
+      <div class="nav-buttons">
+        <button class="nav-button active" id="platforms-btn">Platforms</button>
+        <button class="nav-button" id="policies-btn">Policies</button>
+        <button class="nav-button" id="leaders-btn">Leadership</button>
+      </div>
+
+      <div class="view active" id="platforms-view">
+        <div class="legend">
+          <div class="legend-item">
+            <div class="legend-color policy"></div>
+            <span>Facebook Policy Decisions</span>
+          </div>
+        </div>
+
+        <h3>Policy Changes Matrix</h3>
+        <p>
+          This matrix shows how Facebook's content moderation policies changed
+          over time on the political spectrum.
+        </p>
+        <svg id="platforms-matrix"></svg>
+        <div class="tooltip"></div>
+
+        <h3>Key Events</h3>
+        <div class="timeline-controls">
+          <button class="play-button" id="playButton">▶</button>
+          <div style="flex-grow: 1; position: relative">
+            <div class="timeline-container">
+              <svg class="timeline-svg" id="timeline-svg"></svg>
+              <input
+                type="range"
+                class="timeline-slider"
+                id="yearSlider"
+                min="2015"
+                max="2025"
+                step="1"
+                value="2015"
+              />
+            </div>
+            <div class="year-display" id="yearDisplay">2015</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="view" id="policies-view">
+        <h2>Policy/Features - Overview</h2>
+        <svg id="matrix"></svg>
+        <div class="tooltip"></div>
+      </div>
+
+      <div class="view" id="leaders-view">
+        <div class="placeholder">Leadership Analysis (Coming Soon)</div>
+      </div>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+      // External timeline events (separate from policy changes)
+      const timelineEvents = [
+        {
+          event: "2016 U.S. Election",
+          year: 2016,
+          description: "Donald Trump elected president of the United States.",
+        },
+        {
+          event: "Cambridge Analytica Scandal Exposed",
+          year: 2018,
+          description:
+            "Major data privacy scandal involving Facebook user data.",
+        },
+        {
+          event: "Brett Kavanaugh Supreme Court Hearings",
+          year: 2018,
+          description: "Controversial Supreme Court confirmation hearings.",
+        },
+        {
+          event: "January 6 Capitol Riot",
+          year: 2021,
+          description: "Violent protests at the U.S. Capitol building.",
+        },
+        {
+          event: "Trump 2025 Election Win",
+          year: 2024,
+          description: "Donald Trump wins the 2024 presidential election.",
+        },
+      ];
+
+      // Facebook policy changes with manually positioned coordinates
+      const platformData = [
+        {
+          platform: "Facebook",
+          event: "Central role in political misinformation",
+          quadrant: "Authoritarian Right",
+          year: 2016,
+          description:
+            "Facilitated spread of misinformation via algorithmic feeds.",
+          x: 0.7,
+          y: 0.7,
+        },
+        {
+          platform: "Facebook",
+          event: "Starts using third-party fact-checking services",
+          quadrant: "Authoritarian Left",
+          year: 2016,
+          description:
+            "Introduced fact-checking to combat misinformation post-election.",
+          x: -0.7,
+          y: 0.7,
+        },
+        {
+          platform: "Facebook",
+          event: "Cambridge Analytica response changes",
+          quadrant: "Authoritarian Right",
+          year: 2018,
+          description: "Implemented data privacy measures after scandal.",
+          x: 0.6,
+          y: 0.4,
+        },
+        {
+          platform: "Facebook",
+          event: "Joel Kaplan aligns moderation policy",
+          quadrant: "Authoritarian Right",
+          year: 2018,
+          description:
+            "Kaplan's influence signals conservative alignment in moderation.",
+          x: 0.8,
+          y: 0.3,
+        },
+        {
+          platform: "Facebook",
+          event: "Bans Trump from platforms",
+          quadrant: "Authoritarian Left",
+          year: 2021,
+          description: "Suspended Trump's accounts citing incitement risks.",
+          x: -0.5,
+          y: 0.5,
+        },
+        {
+          platform: "Facebook",
+          event: "Scaling back content moderation",
+          quadrant: "Libertarian Right",
+          year: 2022,
+          description:
+            "Reduced moderation to cut costs, prioritizing free speech.",
+          x: 0.5,
+          y: -0.3,
+        },
+        {
+          platform: "Facebook",
+          event: "Removes DEI goals from corporate disclosures",
+          quadrant: "Libertarian Right",
+          year: 2024,
+          description: "Scaled back progressive initiatives.",
+          x: 0.7,
+          y: -0.5,
+        },
+        {
+          platform: "Facebook",
+          event: "Meta aligns with free-speech stance",
+          quadrant: "Libertarian Right",
+          year: 2025,
+          description:
+            "Shifted policies to align with right-leaning free-speech attitudes.",
+          x: 0.6,
+          y: -0.7,
+        },
+        {
+          platform: "Facebook",
+          event: "Nick Clegg exits, replaced by Joel Kaplan",
+          quadrant: "Authoritarian Right",
+          year: 2025,
+          description: "Shift to Republican-aligned leadership.",
+          x: 0.4,
+          y: 0.6,
+        },
+        {
+          platform: "Facebook",
+          event: "Adopts Community Notes",
+          quadrant: "Libertarian Right",
+          year: 2025,
+          description:
+            "Introduced crowdsourced moderation, mirroring X's model.",
+          x: 0.3,
+          y: -0.6,
+        },
+        {
+          platform: "Facebook",
+          event: "Oversight Board criticized",
+          quadrant: "Libertarian Right",
+          year: 2025,
+          description: "Criticism for reduced moderation oversight.",
+          x: 0.8,
+          y: -0.8,
+        },
+      ];
+
+      // Policy data with manually positioned coordinates
+      const policyData = [
+        {
+          policy: "Content Moderation Policies",
+          quadrant: "Authoritarian Left",
+          description:
+            "Policies that regulate content based on harm reduction principles",
+          x: -0.6,
+          y: 0.8,
+        },
+        {
+          policy: "Algorithmic Content Recommendation",
+          quadrant: "Authoritarian Right",
+          description:
+            "Systems that personalize content based on behavioral data",
+          x: 0.8,
+          y: 0.7,
+        },
+        {
+          policy: "User Anonymity",
+          quadrant: "Libertarian Right",
+          description:
+            "Allowing users to participate without revealing identity",
+          x: 0.7,
+          y: -0.7,
+        },
+        {
+          policy: "Real-Name Requirements",
+          quadrant: "Authoritarian Left",
+          description: "Requiring users to verify their legal identity",
+          x: -0.8,
+          y: 0.6,
+        },
+        {
+          policy: "Microtargeted Political Advertising",
+          quadrant: "Authoritarian Right",
+          description: "Highly specific ad targeting based on user data",
+          x: 0.5,
+          y: 0.8,
+        },
+        {
+          policy: "Fact-Checking & Misinformation Labels",
+          quadrant: "Authoritarian Left",
+          description:
+            "Adding warning labels to potentially misleading content",
+          x: -0.4,
+          y: 0.7,
+        },
+        {
+          policy: "Community Notes",
+          quadrant: "Libertarian Right",
+          description:
+            "Crowdsourced notes to provide context, reducing centralized moderation",
+          x: 0.3,
+          y: -0.5,
+        },
+        {
+          policy: "Privacy-Focused Settings",
+          quadrant: "Libertarian Right",
+          description: "Tools that limit data collection and sharing",
+          x: 0.7,
+          y: -0.4,
+        },
+        {
+          policy: "Extensive Data Collection",
+          quadrant: "Authoritarian Right",
+          description: "Gathering comprehensive user behavior data",
+          x: 0.7,
+          y: 0.4,
+        },
+        {
+          policy: "Visible Engagement Metrics",
+          quadrant: "Libertarian Right",
+          description: "Publicly displaying likes, shares, and other metrics",
+          x: 0.5,
+          y: -0.6,
+        },
+        {
+          policy: "Hidden Engagement Metrics",
+          quadrant: "Authoritarian Left",
+          description:
+            "Concealing popularity metrics to reduce social influence",
+          x: -0.7,
+          y: 0.4,
+        },
+        {
+          policy: "Community/Group Features",
+          quadrant: "Libertarian Right",
+          description: "Tools for users to self-organize into communities",
+          x: 0.4,
+          y: -0.7,
+        },
+        {
+          policy: "Reporting & Flagging Mechanisms",
+          quadrant: "Authoritarian Left",
+          description: "Systems for users to report policy violations",
+          x: -0.5,
+          y: 0.5,
+        },
+        {
+          policy: "Chronological Feed Sorting",
+          quadrant: "Libertarian Left",
+          description:
+            "Displaying content in time-based order without algorithmic curation",
+          x: -0.6,
+          y: -0.5,
+        },
+        {
+          policy: "Algorithmic Feed Sorting",
+          quadrant: "Authoritarian Right",
+          description:
+            "Using algorithms to determine content visibility and order",
+          x: 0.5,
+          y: 0.5,
+        },
+      ];
+
+      // Chart dimensions
+      const margin = { top: 40, right: 40, bottom: 60, left: 60 },
+        width = 800 - margin.left - margin.right,
+        height = 600 - margin.top - margin.bottom;
+
+      const x = d3.scaleLinear().domain([-1, 1]).range([0, width]);
+      const y = d3.scaleLinear().domain([-1, 1]).range([height, 0]);
+
+      // Timeline dimensions
+      const timelineWidth = 560,
+        timelineHeight = 120, // Reduced from 150
+        timelineMargin = { top: 30, bottom: 20, left: 20, right: 20 }; // Less top margin
+      const timelineX = d3
+        .scaleLinear()
+        .domain([2015, 2025])
+        .range([timelineMargin.left, timelineWidth - timelineMargin.right]);
+
+      // Setup Platforms matrix
+      const platformsSvg = d3
+        .select("#platforms-matrix")
+        .attr("viewBox", `0 0 880 700`)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+      // Setup Timeline SVG
+      const timelineSvg = d3
+        .select("#timeline-svg")
+        .attr("viewBox", `0 0 ${timelineWidth} ${timelineHeight}`)
+        .append("g");
+
+      // Add X axis (Platforms)
+      platformsSvg
+        .append("g")
+        .attr("class", "x-axis axis")
+        .attr("transform", `translate(0,${height / 2})`)
+        .call(d3.axisBottom(x).ticks(5).tickSize(0).tickFormat(""));
+
+      // Add Y axis (Platforms)
+      platformsSvg
+        .append("g")
+        .attr("class", "y-axis axis")
+        .attr("transform", `translate(${width / 2},0)`)
+        .call(d3.axisLeft(y).ticks(5).tickSize(0).tickFormat(""));
+
+      // X axis labels (Platforms)
+      platformsSvg
+        .append("text")
+        .attr("class", "axis-label")
+        .attr("text-anchor", "start")
+        .attr("x", 0)
+        .attr("y", height / 2 + 30)
+        .text("Left");
+
+      platformsSvg
+        .append("text")
+        .attr("class", "axis-label")
+        .attr("text-anchor", "end")
+        .attr("x", width)
+        .attr("y", height / 2 + 30)
+        .text("Right");
+
+      // Y axis labels (Platforms)
+      platformsSvg
+        .append("text")
+        .attr("class", "axis-label")
+        .attr("text-anchor", "middle")
+        .attr("x", width / 2)
+        .attr("y", -10)
+        .text("Authoritarian");
+
+      platformsSvg
+        .append("text")
+        .attr("class", "axis-label")
+        .attr("text-anchor", "middle")
+        .attr("x", width / 2)
+        .attr("y", height + 20)
+        .text("Libertarian");
+
+      // Quadrant labels (Platforms)
+      platformsSvg
+        .append("text")
+        .attr("class", "quadrant-label")
+        .attr("x", width * 0.25)
+        .attr("y", height * 0.25)
+        .text("Authoritarian-Left");
+
+      platformsSvg
+        .append("text")
+        .attr("class", "quadrant-label")
+        .attr("x", width * 0.75)
+        .attr("y", height * 0.25)
+        .text("Authoritarian-Right");
+
+      platformsSvg
+        .append("text")
+        .attr("class", "quadrant-label")
+        .attr("x", width * 0.25)
+        .attr("y", height * 0.75)
+        .text("Libertarian-Left");
+
+      platformsSvg
+        .append("text")
+        .attr("class", "quadrant-label")
+        .attr("x", width * 0.75)
+        .attr("y", height * 0.75)
+        .text("Libertarian-Right");
+
+      // Setup Policies matrix
+      const policiesSvg = d3
+        .select("#matrix")
+        .attr("viewBox", `0 0 880 700`)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+      // Add X axis (Policies)
+      policiesSvg
+        .append("g")
+        .attr("class", "x-axis axis")
+        .attr("transform", `translate(0,${height / 2})`)
+        .call(d3.axisBottom(x).ticks(5).tickSize(0).tickFormat(""));
+
+      // Add Y axis (Policies)
+      policiesSvg
+        .append("g")
+        .attr("class", "y-axis axis")
+        .attr("transform", `translate(${width / 2},0)`)
+        .call(d3.axisLeft(y).ticks(5).tickSize(0).tickFormat(""));
+
+      // X axis labels (Policies)
+      policiesSvg
+        .append("text")
+        .attr("class", "axis-label")
+        .attr("text-anchor", "start")
+        .attr("x", 0)
+        .attr("y", height / 2 + 30)
+        .text("Left");
+
+      policiesSvg
+        .append("text")
+        .attr("class", "axis-label")
+        .attr("text-anchor", "end")
+        .attr("x", width)
+        .attr("y", height / 2 + 30)
+        .text("Right");
+
+      // Y axis labels (Policies)
+      policiesSvg
+        .append("text")
+        .attr("class", "axis-label")
+        .attr("text-anchor", "middle")
+        .attr("x", width / 2)
+        .attr("y", -10)
+        .text("Authoritarian");
+
+      policiesSvg
+        .append("text")
+        .attr("class", "axis-label")
+        .attr("text-anchor", "middle")
+        .attr("x", width / 2)
+        .attr("y", height + 20)
+        .text("Libertarian");
+
+      // Quadrant labels (Policies)
+      policiesSvg
+        .append("text")
+        .attr("class", "quadrant-label")
+        .attr("x", width * 0.25)
+        .attr("y", height * 0.25)
+        .text("Authoritarian-Left");
+
+      policiesSvg
+        .append("text")
+        .attr("class", "quadrant-label")
+        .attr("x", width * 0.75)
+        .attr("y", height * 0.25)
+        .text("Authoritarian-Right");
+
+      policiesSvg
+        .append("text")
+        .attr("class", "quadrant-label")
+        .attr("x", width * 0.25)
+        .attr("y", height * 0.75)
+        .text("Libertarian-Left");
+
+      policiesSvg
+        .append("text")
+        .attr("class", "quadrant-label")
+        .attr("x", width * 0.75)
+        .attr("y", height * 0.75)
+        .text("Libertarian-Right");
+
+      // Draw timeline axis at a higher vertical position
+      const centerY = 50; // Move the timeline up (was 50)
+
+      timelineSvg
+        .append("line")
+        .attr("x1", timelineMargin.left)
+        .attr("y1", centerY)
+        .attr("x2", timelineWidth - timelineMargin.right)
+        .attr("y2", centerY)
+        .attr("stroke", "#d1d5db")
+        .attr("stroke-width", 2);
+
+      // Add year marks to timeline
+      for (let year = 2015; year <= 2025; year++) {
+        timelineSvg
+          .append("line")
+          .attr("x1", timelineX(year))
+          .attr("y1", centerY - 5)
+          .attr("x2", timelineX(year))
+          .attr("y2", centerY + 5)
+          .attr("stroke", "#d1d5db")
+          .attr("stroke-width", 1);
+
+        timelineSvg
+          .append("text")
+          .attr("x", timelineX(year))
+          .attr("y", centerY + 18) // Closer to the timeline
+          .attr("text-anchor", "middle")
+          .attr("font-size", "8px")
+          .attr("fill", "#64748b")
+          .text(year);
+      }
+
+      // Add a clickable area for the timeline
+      timelineSvg
+        .append("rect")
+        .attr("class", "timeline-area")
+        .attr("x", timelineMargin.left)
+        .attr("y", 30)
+        .attr(
+          "width",
+          timelineWidth - timelineMargin.left - timelineMargin.right
+        )
+        .attr("height", 40)
+        .on("click", function (event) {
+          // Get mouse position relative to SVG
+          const [x] = d3.pointer(event);
+
+          // Constrain position to timeline bounds
+          const clampedX = Math.max(
+            timelineMargin.left,
+            Math.min(timelineWidth - timelineMargin.right, x)
+          );
+
+          // Calculate year from position
+          const year = Math.round(timelineX.invert(clampedX));
+
+          // Update scrubber position
+          scrubber.attr("cx", timelineX(year));
+
+          // Update year display and visualization
+          yearDisplay.textContent = year;
+          updateVisualization(year);
+        });
+
+      // Add scrubber circle
+      const scrubber = timelineSvg
+        .append("circle")
+        .attr("class", "timeline-scrubber")
+        .attr("r", 9)
+        .attr("cx", timelineX(2015)) // Start at 2015
+        .attr("cy", 50);
+
+      // Set up drag behavior for scrubber
+      const drag = d3
+        .drag()
+        .on("start", function () {
+          // Stop any ongoing animation
+          if (isPlaying) {
+            clearInterval(animationInterval);
+            playButton.innerHTML = "▶";
+            isPlaying = false;
+          }
+        })
+        .on("drag", function (event) {
+          // Constrain horizontal position
+          const x = Math.max(
+            timelineMargin.left,
+            Math.min(timelineWidth - timelineMargin.right, event.x)
+          );
+
+          // Update scrubber position
+          d3.select(this).attr("cx", x);
+
+          // Calculate year and update
+          const year = Math.round(timelineX.invert(x));
+          yearDisplay.textContent = year;
+          updateVisualization(year);
+        });
+
+      // Apply drag behavior to scrubber
+      scrubber.call(drag);
+
+      // Tooltip
+      const tooltip = d3.select(".tooltip");
+
+      // Function to update Platforms visualization (Policy Changes)
+      function updatePlatforms(year) {
+        // Filter platform data by year
+        const filteredData = platformData.filter((d) => d.year <= year);
+
+        // Update quadrant circles
+        const circles = platformsSvg
+          .selectAll("circle")
+          .data(filteredData, (d) => d.event);
+
+        circles
+          .enter()
+          .append("circle")
+          .attr("r", 8)
+          .attr("class", "facebook-circle")
+          .attr("opacity", 0.9)
+          .merge(circles)
+          .attr("cx", (d) => x(d.x))
+          .attr("cy", (d) => y(d.y))
+          .on("mouseover", (event, d) => {
+            tooltip.transition().duration(200).style("opacity", 1);
+            tooltip
+              .html(
+                `<strong>${d.platform} Policy Change: ${
+                  d.event
+                }</strong><br/>Year: ${d.year}<br/>Quadrant: ${
+                  d.quadrant
+                }<br/>${d.description || ""}`
+              )
+              .style(
+                "left",
+                Math.min(event.pageX + 10, window.innerWidth - 280) + "px"
+              )
+              .style("top", Math.max(event.pageY - 28, 0) + "px");
+          })
+          .on("mouseout", () => {
+            tooltip.transition().duration(500).style("opacity", 0);
+          });
+
+        circles.exit().remove();
+
+        // Update point labels with better spacing
+        const labels = platformsSvg
+          .selectAll("text.point-label")
+          .data(filteredData, (d) => d.event);
+
+        labels
+          .enter()
+          .append("text")
+          .attr("class", "point-label")
+          .merge(labels)
+          .attr("x", (d) => x(d.x))
+          .attr("y", (d) => y(d.y) - 15) // Position labels above points
+          .text((d) => {
+            // Truncate long labels
+            return d.event.length > 30
+              ? d.event.substring(0, 30) + "..."
+              : d.event;
+          });
+
+        labels.exit().remove();
+
+        // Update timeline with external events
+        updateTimeline(year);
+      }
+
+      // Function to update timeline with external events
+      function updateTimeline(year) {
+        // Filter timeline events by year
+        const filteredEvents = timelineEvents.filter((d) => d.year <= year);
+
+        // Clear previous timeline elements, but NOT the main axis and scrubber
+        timelineSvg.selectAll(".timeline-event-marker").remove();
+        timelineSvg.selectAll(".timeline-connector-line").remove();
+        timelineSvg.selectAll(".top-event-label").remove();
+        timelineSvg.selectAll(".bottom-event-label").remove();
+
+        // Add connector lines and markers for each year with events
+        let topIndex = 0;
+        let bottomIndex = 0;
+
+        // Timeline center position (vertical) - use the same value as in the initial setup
+        const centerY = 50; // Keep this the same as your initial timeline setup
+
+        filteredEvents.forEach((d, i) => {
+          // Decide whether to place the marker above or below the timeline
+          const isTop = i % 2 === 0;
+          // Position markers further from timeline with more space
+          const markerY = isTop ? centerY - 35 : centerY + 35;
+
+          // Add connector line from timeline to marker
+          timelineSvg
+            .append("line")
+            .attr("class", "timeline-connector-line")
+            .attr("x1", timelineX(d.year))
+            .attr("y1", centerY)
+            .attr("x2", timelineX(d.year))
+            .attr("y2", markerY);
+
+          // Add event marker
+          timelineSvg
+            .append("circle")
+            .attr("class", "timeline-event-marker")
+            .attr("r", 6)
+            .attr("cx", timelineX(d.year))
+            .attr("cy", markerY)
+            .on("mouseover", (event, d) => {
+              tooltip.transition().duration(200).style("opacity", 1);
+              tooltip
+                .html(
+                  `<strong>External Event: ${d.event}</strong><br/>Year: ${
+                    d.year
+                  }<br/>${d.description || ""}`
+                )
+                .style(
+                  "left",
+                  Math.min(event.pageX + 10, window.innerWidth - 280) + "px"
+                )
+                .style("top", Math.max(event.pageY - 28, 0) + "px");
+            })
+            .on("mouseout", () => {
+              tooltip.transition().duration(500).style("opacity", 0);
+            });
+
+          // Add labels for each event with more space and text wrapping
+          if (isTop) {
+            // Top labels - more space and potential for multiple lines
+            const label = timelineSvg
+              .append("text")
+              .attr("class", "top-event-label timeline-event")
+              .attr("x", timelineX(d.year))
+              .attr("y", markerY - 15 - topIndex * 14)
+              .attr("text-anchor", "middle");
+
+            // Split long event names
+            const words = d.event.split(" ");
+            if (words.length > 3) {
+              const firstLine = words
+                .slice(0, Math.ceil(words.length / 2))
+                .join(" ");
+              const secondLine = words
+                .slice(Math.ceil(words.length / 2))
+                .join(" ");
+              label
+                .append("tspan")
+                .attr("x", timelineX(d.year))
+                .attr("dy", "0em")
+                .text(firstLine);
+              label
+                .append("tspan")
+                .attr("x", timelineX(d.year))
+                .attr("dy", "1.1em")
+                .text(secondLine);
+            } else {
+              label.text(d.event);
+            }
+            topIndex++;
+          } else {
+            // Bottom labels - more space and potential for multiple lines
+            const label = timelineSvg
+              .append("text")
+              .attr("class", "bottom-event-label timeline-event")
+              .attr("x", timelineX(d.year))
+              .attr("y", markerY + 15 + bottomIndex * 14)
+              .attr("text-anchor", "middle");
+
+            // Split long event names
+            const words = d.event.split(" ");
+            if (words.length > 3) {
+              const firstLine = words
+                .slice(0, Math.ceil(words.length / 2))
+                .join(" ");
+              const secondLine = words
+                .slice(Math.ceil(words.length / 2))
+                .join(" ");
+              label
+                .append("tspan")
+                .attr("x", timelineX(d.year))
+                .attr("dy", "0em")
+                .text(firstLine);
+              label
+                .append("tspan")
+                .attr("x", timelineX(d.year))
+                .attr("dy", "1.1em")
+                .text(secondLine);
+            } else {
+              label.text(d.event);
+            }
+            bottomIndex++;
+          }
+        });
+      }
+
+      // Function to update Policies visualization (Policies)
+      function updatePolicies() {
+        // Only calculate positions if they haven't been calculated before
+        if (!window.policyPositionsCalculated) {
+          // Group policy data by quadrant to improve positioning
+          const byQuadrant = {
+            "Authoritarian Left": [],
+            "Authoritarian Right": [],
+            "Libertarian Left": [],
+            "Libertarian Right": [],
+          };
+
+          policyData.forEach((d) => {
+            if (byQuadrant[d.quadrant]) {
+              byQuadrant[d.quadrant].push(d);
+            }
+          });
+
+          // Position points in each quadrant with improved spacing
+          Object.keys(byQuadrant).forEach((quadrant) => {
+            const items = byQuadrant[quadrant];
+            const count = items.length;
+
+            // Skip empty quadrants
+            if (count === 0) return;
+
+            // Calculate grid size with extra spacing
+            const gridSize = Math.ceil(Math.sqrt(count * 1.5));
+
+            let xMin, xMax, yMin, yMax;
+
+            switch (quadrant) {
+              case "Authoritarian Left":
+                xMin = -0.9;
+                xMax = -0.1;
+                yMin = 0.1;
+                yMax = 0.9;
+                break;
+              case "Authoritarian Right":
+                xMin = 0.1;
+                xMax = 0.9;
+                yMin = 0.1;
+                yMax = 0.9;
+                break;
+              case "Libertarian Left":
+                xMin = -0.9;
+                xMax = -0.1;
+                yMin = -0.9;
+                yMax = -0.1;
+                break;
+              case "Libertarian Right":
+                xMin = 0.1;
+                xMax = 0.9;
+                yMin = -0.9;
+                yMax = -0.1;
+                break;
+            }
+
+            // Calculate step sizes
+            const xRange = xMax - xMin;
+            const yRange = yMax - yMin;
+            const xStep = xRange / (gridSize || 1);
+            const yStep = yRange / (gridSize || 1);
+
+            // Position items in a grid with static offsets using item index as seed
+            items.forEach((item, i) => {
+              const row = Math.floor(i / gridSize);
+              const col = i % gridSize;
+
+              // Use deterministic offsets based on index instead of random
+              const xOffset = (((i * 13) % 10) - 5) * 0.01; // Deterministic but varied
+              const yOffset = (((i * 7) % 10) - 5) * 0.01;
+
+              // Set positions
+              item.x = xMin + (col + 0.5) * xStep + xOffset;
+              item.y = yMin + (row + 0.5) * yStep + yOffset;
+            });
+          });
+
+          // Mark that positions have been calculated
+          window.policyPositionsCalculated = true;
+        }
+
+        // Clear existing elements
+        policiesSvg.selectAll("circle").remove();
+        policiesSvg.selectAll("text.point-label").remove();
+
+        // Add circles for policies (no changes to positions)
+        policiesSvg
+          .selectAll("circle")
+          .data(policyData)
+          .enter()
+          .append("circle")
+          .attr("r", 8)
+          .attr("class", "policy-circle")
+          .attr("opacity", 0.9)
+          .attr("cx", (d) => x(d.x))
+          .attr("cy", (d) => y(d.y))
+          .on("mouseover", (event, d) => {
+            tooltip.transition().duration(200).style("opacity", 1);
+            tooltip
+              .html(
+                `<strong>${d.policy}</strong><br/>Quadrant: ${d.quadrant}<br/>${
+                  d.description || ""
+                }`
+              )
+              .style(
+                "left",
+                Math.min(event.pageX + 10, window.innerWidth - 280) + "px"
+              )
+              .style("top", Math.max(event.pageY - 28, 0) + "px");
+          })
+          .on("mouseout", () => {
+            tooltip.transition().duration(500).style("opacity", 0);
+          });
+
+        // Add labels (no changes to the rest of the function)
+        const labels = policiesSvg
+          .selectAll("text.point-label")
+          .data(policyData)
+          .enter()
+          .append("text")
+          .attr("class", "point-label")
+          .attr("text-anchor", "start")
+          .attr("x", (d) => x(d.x) + 12)
+          .attr("y", (d) => y(d.y) - 8)
+          .attr("dy", "0em")
+          .text((d) => d.policy)
+          .call(wrapText, 120);
+      }
+
+      // Add this text wrapping function
+      function wrapText(text, width) {
+        text.each(function () {
+          const text = d3.select(this);
+          const words = text.text().split(/\s+/);
+          let line = [];
+          let lineNumber = 0;
+          const lineHeight = 1.2; // Increased line height for better readability
+          const y = text.attr("y");
+          const x = text.attr("x");
+          const dy = parseFloat(text.attr("dy") || 0);
+          let tspan = text
+            .text(null)
+            .append("tspan")
+            .attr("x", x)
+            .attr("y", y)
+            .attr("dy", dy + "em");
+
+          for (let i = 0; i < words.length; i++) {
+            const word = words[i];
+            line.push(word);
+            tspan.text(line.join(" "));
+
+            // If line is too long and has more than one word, wrap
+            if (
+              tspan.node().getComputedTextLength() > width &&
+              line.length > 1
+            ) {
+              line.pop();
+              tspan.text(line.join(" "));
+              line = [word];
+              tspan = text
+                .append("tspan")
+                .attr("x", x)
+                .attr("y", y)
+                .attr("dy", ++lineNumber * lineHeight + dy + "em")
+                .text(word);
+            }
+          }
+        });
+      }
+
+      // Navigation buttons
+      document
+        .getElementById("platforms-btn")
+        .addEventListener("click", function () {
+          setActiveView("platforms");
+          updateVisualization(parseInt(yearSlider.value));
+        });
+
+      document
+        .getElementById("policies-btn")
+        .addEventListener("click", function () {
+          setActiveView("policies");
+          updatePolicies(); // No need for year parameter
+        });
+
+      document
+        .getElementById("leaders-btn")
+        .addEventListener("click", function () {
+          setActiveView("leaders");
+        });
+
+      function setActiveView(viewName) {
+        document.querySelectorAll(".nav-button").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        document.querySelectorAll(".view").forEach((view) => {
+          view.classList.remove("active");
+        });
+        document.getElementById(viewName + "-btn").classList.add("active");
+        document.getElementById(viewName + "-view").classList.add("active");
+      }
+
+      // Timeline functionality
+      const yearSlider = document.getElementById("yearSlider");
+      const yearDisplay = document.getElementById("yearDisplay");
+      const playButton = document.getElementById("playButton");
+      let animationInterval;
+      let isPlaying = false;
+
+      yearSlider.addEventListener("input", function () {
+        const year = parseInt(this.value);
+        yearDisplay.textContent = year;
+        updateVisualization(year);
+      });
+
+      playButton.addEventListener("click", function () {
+        if (isPlaying) {
+          clearInterval(animationInterval);
+          playButton.innerHTML = "▶";
+          isPlaying = false;
+        } else {
+          playButton.innerHTML = "⏸";
+          isPlaying = true;
+          if (parseInt(yearSlider.value) >= parseInt(yearSlider.max)) {
+            yearSlider.value = yearSlider.min;
+            yearDisplay.textContent = yearSlider.min;
+          }
+          animationInterval = setInterval(() => {
+            const currentYear = parseInt(yearSlider.value);
+            const maxYear = parseInt(yearSlider.max);
+            if (currentYear < maxYear) {
+              yearSlider.value = currentYear + 1;
+              yearDisplay.textContent = currentYear + 1;
+              updateVisualization(currentYear + 1);
+            } else {
+              clearInterval(animationInterval);
+              playButton.innerHTML = "▶";
+              isPlaying = false;
+            }
+          }, 1000);
+        }
+      });
+
+      // Update visualization based on year and active view
+      function updateVisualization(year) {
+        const activeView = document.querySelector(".view.active").id;
+        if (activeView === "platforms-view") {
+          updatePlatforms(year);
+        } else if (activeView === "policies-view") {
+          updatePolicies(); // No timeline for policies
+        }
+      }
+
+      // Initialize visualizations
+      updateVisualization(2015);
+
+      // Add this CSS for the timeline scrubber
+      document.head.insertAdjacentHTML(
+        "beforeend",
+        `
+        <style>
+          .timeline-scrubber {
+            fill: #1a73e8;
+            stroke: white;
+            stroke-width: 2;
+            cursor: pointer;
+            filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
+          }
+          
+          .timeline-area {
+            fill: transparent;
+            cursor: pointer;
+          }
+
+          /* Hide the range slider since we'll use the scrubber instead */
+          .timeline-slider {
+            display: none;
+          }
+        </style>
+      `
+      );
+
+      // Update the timeline CSS for more compact layout
+      document.head.insertAdjacentHTML(
+        "beforeend",
+        `
+        <style>
+          .timeline-svg {
+            width: 100%;
+            max-width: 600px;
+            height: 120px; /* Match the new timelineHeight */
+            margin: 0 auto;
+          }
+          
+          .top-event-label, .bottom-event-label {
+            font-size: 10px; 
+            fill: #1a1a1a;
+            text-anchor: middle;
+          }
+          
+          .timeline-controls {
+            margin: 10px auto 20px; /* Less vertical margin */
+            max-width: 600px;
+          }
+        </style>
+      `
+      );
+    </script>
+  </body>
+</html>

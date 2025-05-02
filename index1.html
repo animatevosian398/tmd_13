@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Political Matrix of Digital Platforms & Policies</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      /* Additional styling for the three-column layout */
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      @media (min-width: 1024px) {
+        .grid {
+          grid-template-columns: 250px 1fr;
+        }
+      }
+
+      @media (min-width: 1200px) {
+        .grid {
+          grid-template-columns: 250px 1fr 300px; /* Left sidebar, main content, right panel */
+        }
+
+        .side-panel {
+          display: block !important;
+        }
+      }
+
+      /* Right panel styling */
+      .side-panel {
+        display: none; /* Hidden on mobile */
+      }
+
+      .platform-detail {
+        animation: fadeIn 0.3s ease;
+      }
+
+      .platform-detail-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .platform-detail-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+      }
+
+      .platform-detail-icon img {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+      }
+
+      .platform-detail-icon i {
+        font-size: 24px;
+      }
+
+      .position-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .position-label {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        margin-right: 0.5rem;
+      }
+
+      .position-values {
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+
+      .detail-description {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        margin: 1rem 0;
+      }
+
+      .platform-detail-footer {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-top: 1rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid var(--border-color);
+      }
+
+      .empty-state {
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-muted);
+        font-size: 0.875rem;
+        text-align: center;
+        padding: 1rem;
+        border: 1px dashed var(--border-color);
+        border-radius: var(--radius);
+      }
+
+      /* Add responsive adjustments */
+      @media (max-width: 1199px) {
+        .side-panel-mobile {
+          display: block;
+          margin-top: 2rem;
+        }
+
+        .side-panel-desktop {
+          display: none;
+        }
+      }
+
+      @media (min-width: 1200px) {
+        .side-panel-mobile {
+          display: none;
+        }
+
+        .side-panel-desktop {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="header-content">
+          <h1 class="gradient-text">Platform Policy Evolution Matrix</h1>
+          <button id="info-button" class="btn btn-outline">
+            <i class="fas fa-info-circle"></i>
+            About
+          </button>
+        </div>
+        <p class="subtitle">
+          Tracking how social media platforms have shifted their content
+          policies across the political spectrum from 2015 to 2025
+        </p>
+      </header>
+
+      <!-- View selector buttons -->
+      <div class="view-selector">
+        <button id="view-platforms" class="view-btn active">
+          <i class="fas fa-globe"></i> Platforms
+        </button>
+        <button id="view-policies" class="view-btn">
+          <i class="fas fa-file-alt"></i> Policies
+        </button>
+        <button id="view-leadership" class="view-btn">
+          <i class="fas fa-users"></i> Leadership
+        </button>
+      </div>
+
+      <div class="grid">
+        <!-- Left sidebar - Platform filters -->
+        <div class="sidebar">
+          <div class="card">
+            <div class="card-header">
+              <h2>Platforms</h2>
+              <button id="toggle-filters" class="btn btn-ghost mobile-only">
+                <i class="fas fa-chevron-down"></i>
+              </button>
+            </div>
+
+            <div id="filters-content" class="filters-content">
+              <div class="filter-actions">
+                <button id="select-all" class="btn btn-outline btn-sm">
+                  Select All
+                </button>
+                <button id="clear-all" class="btn btn-outline btn-sm">
+                  Clear All
+                </button>
+              </div>
+
+              <div class="platform-list" id="platform-list">
+                <!-- Platform checkboxes will be inserted here by JavaScript -->
+              </div>
+
+              <div id="selected-event-details" class="selected-event hidden">
+                <h3>Selected Event:</h3>
+                <p id="selected-event-description"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main content - Matrix and Timeline -->
+        <div class="main-content">
+          <!-- Matrix visualization -->
+          <div class="card">
+            <div class="matrix-container">
+              <div class="matrix-axes">
+                <div class="axis-horizontal"></div>
+                <div class="axis-vertical"></div>
+
+                <div class="axis-label top">Authoritarian (+1)</div>
+                <div class="axis-label bottom">Libertarian (-1)</div>
+                <div class="axis-label left">Left (-1)</div>
+                <div class="axis-label right">Right (+1)</div>
+              </div>
+
+              <!-- <div class="matrix-disclaimer">
+                Platform positions based on ban activity and content moderation
+                policies
+              </div> -->
+
+              <div id="matrix" class="matrix">
+                <!-- Platform dots will be inserted here by JavaScript -->
+              </div>
+
+              <div class="year-badge">
+                <span id="current-year">2015</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Timeline slider -->
+          <div class="card">
+            <h2>Timeline</h2>
+            <div class="timeline-slider">
+              <input
+                type="range"
+                id="year-slider"
+                min="2015"
+                max="2025"
+                value="2015"
+                step="1"
+              />
+              <div class="slider-labels">
+                <span>2015</span>
+                <span>2025</span>
+              </div>
+            </div>
+
+            <div class="timeline-controls">
+              <button id="play-timeline" class="btn btn-outline">
+                <i class="fa-solid fa-play"></i> Play
+              </button>
+            </div>
+
+            <div class="timeline-events">
+              <h3>Key Events</h3>
+              <div id="events-container" class="events-container">
+                <!-- Timeline events will be inserted here by JavaScript -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Platform cards (only shown on smaller screens) -->
+          <div id="platform-cards" class="platform-cards">
+            <!-- Platform cards will be inserted here by JavaScript -->
+          </div>
+
+          <!-- Side panel for mobile view -->
+          <div class="card side-panel-mobile">
+            <h2>Details</h2>
+            <div class="empty-state" id="empty-details-mobile">
+              <p>Select a platform from the matrix to view details and reasons that informed account</p>
+            </div>
+            <div class="platform-detail hidden" id="platform-detail-mobile">
+              <div class="platform-detail-header">
+                <h3 id="detail-platform-name-mobile"></h3>
+                <div
+                  class="platform-detail-icon"
+                  id="detail-platform-icon-mobile"
+                ></div>
+              </div>
+              <div class="platform-detail-content">
+                <div class="position-info">
+                  <div class="position-label">Position:</div>
+                  <div class="position-values">
+                    <span id="detail-x-position-mobile"></span>,
+                    <span id="detail-y-position-mobile"></span>
+                  </div>
+                </div>
+                <div class="detail-description" id="detail-description-mobile">
+                  <!-- Platform description will go here -->
+                </div>
+              </div>
+              <div class="platform-detail-footer">
+                <span id="detail-position-text-mobile"></span>
+                <span id="detail-year-mobile"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right side panel - Platform details -->
+        <div class="side-panel side-panel-desktop" id="details-panel">
+          <div class="card">
+            <h2>Platform Details</h2>
+            <div class="empty-state" id="empty-details">
+              <p>Select a platform from the matrix to view details</p>
+            </div>
+            <div class="platform-detail hidden" id="platform-detail">
+              <div class="platform-detail-header">
+                <h3 id="detail-platform-name"></h3>
+                <div
+                  class="platform-detail-icon"
+                  id="detail-platform-icon"
+                ></div>
+              </div>
+              <div class="platform-detail-content">
+                <div class="position-info">
+                  <div class="position-label">Position:</div>
+                  <div class="position-values">
+                    <span id="detail-x-position"></span>,
+                    <span id="detail-y-position"></span>
+                  </div>
+                </div>
+                <div class="detail-description" id="detail-description">
+                  <!-- Platform description will go here -->
+                </div>
+              </div>
+              <div class="platform-detail-footer">
+                <span id="detail-position-text"></span>
+                <span id="detail-year"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Related events in the side panel -->
+          <!-- <div class="card">
+            <h2>Related Events</h2>
+            <div class="events-container" id="related-events-container">
+              <div class="event-empty">
+                Select a platform to see related events
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info Modal -->
+    <div id="info-modal" class="modal hidden">
+      <div class="modal-overlay"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>About This Visualization</h2>
+          <button id="close-modal" class="btn btn-ghost">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>
+            This interactive visualization maps how major social media platforms
+            have evolved their content policies and moderation approaches over
+            time, positioned on a political matrix.
+          </p>
+          <h3>How to use:</h3>
+          <ul>
+            <li>
+              Use the timeline slider to see how platforms have shifted over
+              time
+            </li>
+            <li>
+              Filter platforms using the checkboxes to focus on specific
+              companies
+            </li>
+            <li>
+              Click on a platform to see detailed information about their policy
+              changes
+            </li>
+            <li>Explore key events that influenced policy shifts</li>
+          </ul>
+          <h3>About the matrix:</h3>
+          <p>
+            The horizontal axis represents Left-Right political orientation from
+            -1 (left) to +1 (right). The vertical axis represents
+            Authoritarian-Libertarian approaches from -1 (libertarian) to +1
+            (authoritarian).
+          </p>
+          <p class="note">
+            Data source: Platform policy positions from 2015-2025 based on
+            content moderation practices and policy changes.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

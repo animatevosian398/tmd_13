@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Political Matrix of Digital Platforms</title>
+    <style>
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Helvetica, Arial, sans-serif;
+        color: #333;
+        line-height: 1.5;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f7fa;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        background-color: white;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
+
+      h1,
+      h2,
+      h3 {
+        color: #1a202c;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      h3 {
+        font-size: 1.2rem;
+      }
+
+      .main-content {
+        display: flex;
+        gap: 20px;
+      }
+
+      .visualization-container {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .details-panel {
+        width: 300px;
+        border-left: 1px solid #e2e8f0;
+        padding-left: 20px;
+      }
+
+      .platform-details {
+        margin-top: 20px;
+      }
+
+      .platform-details h3 {
+        margin-bottom: 10px;
+        color: #2d3748;
+      }
+
+      .details-year {
+        font-weight: 500;
+        color: #4a5568;
+      }
+
+      .details-position {
+        font-size: 0.9rem;
+        color: #718096;
+        margin-bottom: 10px;
+      }
+
+      .details-description {
+        margin-bottom: 20px;
+      }
+
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        font-size: 0.9rem;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 4px;
+      }
+
+      .legend-item:hover {
+        background-color: #f7fafc;
+      }
+
+      .legend-item.highlighted {
+        background-color: #e2e8f0;
+        font-weight: 500;
+      }
+
+      .legend-color {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 0.5rem;
+      }
+
+      .legend-control {
+        margin-right: 16px;
+      }
+
+      .legend-control button {
+        padding: 4px 12px;
+        background-color: #e2e8f0;
+        border: none;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        cursor: pointer;
+      }
+
+      .legend-control button:hover {
+        background-color: #cbd5e0;
+      }
+
+      .tooltip {
+        position: absolute;
+        background-color: rgba(255, 255, 255, 0.95);
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 4px;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.2s;
+        max-width: 250px;
+        font-size: 0.9rem;
+        z-index: 10;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .axis {
+        font-size: 12px;
+      }
+
+      .axis-label {
+        font-size: 14px;
+        fill: #4a5568;
+        font-weight: 500;
+      }
+
+      .quadrant-label {
+        font-size: 13px;
+        fill: #a0aec0;
+        font-weight: 500;
+        text-anchor: middle;
+      }
+
+      .timeline-container {
+        width: 100%;
+        position: relative;
+        margin-top: 20px;
+      }
+
+      .timeline-controls {
+        display: flex;
+        align-items: center;
+        margin: 1rem 0;
+      }
+
+      .play-button {
+        background-color: #4299e1;
+        color: white;
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        font-size: 18px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+      }
+
+      .timeline-slider {
+        width: 100%;
+        margin: 0;
+      }
+
+      .year-display {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #4a5568;
+        margin-top: 0.5rem;
+        text-align: center;
+      }
+
+      .platform-circle {
+        cursor: pointer;
+      }
+
+      .timeline-scrubber {
+        fill: #1a73e8;
+        stroke: white;
+        stroke-width: 2;
+        cursor: pointer;
+        filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
+      }
+
+      .timeline-area {
+        fill: transparent;
+        cursor: pointer;
+      }
+
+      .timeline-slider {
+        display: none;
+      }
+
+      .timeline-svg {
+        width: 100%;
+        max-width: 100%;
+        height: 120px;
+        margin: 0 auto;
+      }
+
+      .timeline-event-marker {
+        fill: #ef5350;
+        stroke: white;
+        stroke-width: 2;
+        cursor: pointer;
+      }
+
+      .timeline-connector-line {
+        stroke: #ef5350;
+        stroke-width: 1.5;
+        stroke-dasharray: 3, 3;
+      }
+
+      .timeline-event {
+        font-size: 10px;
+        fill: #4a5568;
+        font-weight: 500;
+      }
+
+      .top-event-label,
+      .bottom-event-label {
+        font-size: 10px;
+        fill: #1a1a1a;
+        text-anchor: middle;
+      }
+
+      /* Platform-specific colors */
+      .facebook-circle {
+        fill: #4267b2;
+      }
+      .xtwitter-circle {
+        fill: #1da1f2;
+      }
+      .tiktok-circle {
+        fill: #000000;
+      }
+      .reddit-circle {
+        fill: #ff4500;
+      }
+      .gab-circle {
+        fill: #00c244;
+      }
+      .bluesky-circle {
+        fill: #0285ff;
+      }
+      .threads-circle {
+        fill: #555555;
+      }
+      .truthsocial-circle {
+        fill: #4a96e9;
+      }
+
+      .details-help {
+        color: #718096;
+        font-style: italic;
+      }
+
+      .loading-message {
+        text-align: center;
+        padding: 20px;
+        font-size: 1.2rem;
+        color: #718096;
+      }
+    </style>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Political Matrix of Digital Platforms</h1>
+
+      <div class="legend" id="platform-legend">
+        <!-- Legend will be populated dynamically -->
+      </div>
+
+      <div class="main-content">
+        <div class="visualization-container">
+          <div id="loading" class="loading-message">Loading data...</div>
+          <svg id="platforms-matrix"></svg>
+          <div class="tooltip"></div>
+
+          <div class="timeline-controls">
+            <button class="play-button" id="playButton">▶</button>
+            <div style="flex-grow: 1; position: relative">
+              <div class="timeline-container">
+                <svg class="timeline-svg" id="timeline-svg"></svg>
+                <input
+                  type="range"
+                  class="timeline-slider"
+                  id="yearSlider"
+                  min="2015"
+                  max="2025"
+                  step="1"
+                  value="2015"
+                />
+              </div>
+              <div class="year-display" id="yearDisplay">2015</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="details-panel" id="details-panel">
+          <h3>Platform Details</h3>
+          <p class="details-help">Select a platform to see details</p>
+          <div class="platform-details" id="platform-details">
+            <!-- Platform details will be displayed here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+      // IMPORTANT: Wait for DOM to be fully loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        // External timeline events
+        const timelineEvents = [
+          {
+            event: "2016 U.S. Election",
+            year: 2016,
+            description: "Donald Trump elected president of the United States.",
+          },
+          {
+            event: "Cambridge Analytica Scandal",
+            year: 2018,
+            description:
+              "Major data privacy scandal involving Facebook user data.",
+          },
+          {
+            event: "January 6 Capitol Riot",
+            year: 2021,
+            description: "Violent protests at the U.S. Capitol building.",
+          },
+          {
+            event: "Trump 2024 Election Win",
+            year: 2024,
+            description: "Donald Trump wins the 2024 presidential election.",
+          },
+        ];
+
+        // Define a color scheme for platforms
+        const platformColors = {
+          Facebook: "#4267B2",
+          "X (Twitter)": "#1DA1F2",
+          TikTok: "#000000",
+          Reddit: "#FF4500",
+          Gab: "#00C244",
+          BlueSky: "#0285FF",
+          Threads: "#555555",
+          "Truth Social": "#4A96E9",
+        };
+
+        // Load data from CSV file
+        d3.csv("platforms_positions_2015_2025.csv")
+          .then(function (data) {
+            // Hide loading message
+            document.getElementById("loading").style.display = "none";
+
+            // Process the CSV data
+            const platformPositionData = data.map((d) => {
+              return {
+                platform: d.Platform,
+                year: +d.Year,
+                x: +d["Adjusted X (Left-Right)"],
+                y: +d["Adjusted Y (Authoritarian-Libertarian)"],
+                description: d["Reason Summary (EN)"] || "",
+              };
+            });
+
+            // Initialize visualization with processed data
+            initVisualization(platformPositionData);
+          })
+          .catch(function (error) {
+            console.error("Error loading the CSV file:", error);
+            document.getElementById("loading").textContent =
+              "Error loading data. Please check the console for details.";
+          });
+
+        // Main function to initialize the visualization
+        function initVisualization(platformPositionData) {
+          // Get min and max years from data
+          const years = platformPositionData.map((d) => parseInt(d.year));
+          const minYear = Math.min(...years);
+          const maxYear = Math.max(...years);
+
+          // Get all unique platforms
+          const uniquePlatforms = [
+            ...new Set(platformPositionData.map((d) => d.platform)),
+          ];
+
+          // Chart dimensions
+          const margin = { top: 40, right: 40, bottom: 60, left: 60 },
+            width = 700 - margin.left - margin.right,
+            height = 550 - margin.top - margin.bottom;
+
+          const x = d3.scaleLinear().domain([-1, 1]).range([0, width]);
+          const y = d3.scaleLinear().domain([-1, 1]).range([height, 0]);
+
+          // Timeline dimensions
+          const timelineWidth = 700 - margin.left - margin.right,
+            timelineHeight = 120,
+            timelineMargin = { top: 30, bottom: 20, left: 20, right: 20 };
+          const timelineX = d3
+            .scaleLinear()
+            .domain([minYear, maxYear])
+            .range([0, timelineWidth]);
+
+          // Convert platform names to CSS-friendly class names
+          function platformToClass(platform) {
+            return platform.toLowerCase().replace(/[^a-z0-9]/g, "");
+          }
+
+          // Setup Platforms matrix
+          const platformsSvg = d3
+            .select("#platforms-matrix")
+            .attr(
+              "viewBox",
+              `0 0 ${width + margin.left + margin.right} ${
+                height + margin.top + margin.bottom
+              }`
+            )
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+          // Setup Timeline SVG
+          const timelineSvg = d3
+            .select("#timeline-svg")
+            .attr(
+              "viewBox",
+              `0 0 ${
+                timelineWidth + timelineMargin.left + timelineMargin.right
+              } ${timelineHeight}`
+            )
+            .append("g")
+            .attr("transform", `translate(${timelineMargin.left},0)`);
+
+          // Add X axis (Platforms)
+          platformsSvg
+            .append("g")
+            .attr("class", "x-axis axis")
+            .attr("transform", `translate(0,${height / 2})`)
+            .call(d3.axisBottom(x).ticks(5).tickSize(0).tickFormat(""));
+
+          // Add Y axis (Platforms)
+          platformsSvg
+            .append("g")
+            .attr("class", "y-axis axis")
+            .attr("transform", `translate(${width / 2},0)`)
+            .call(d3.axisLeft(y).ticks(5).tickSize(0).tickFormat(""));
+
+          // X axis labels (Platforms)
+          platformsSvg
+            .append("text")
+            .attr("class", "axis-label")
+            .attr("text-anchor", "start")
+            .attr("x", 0)
+            .attr("y", height / 2 + 30)
+            .text("Left");
+
+          platformsSvg
+            .append("text")
+            .attr("class", "axis-label")
+            .attr("text-anchor", "end")
+            .attr("x", width)
+            .attr("y", height / 2 + 30)
+            .text("Right");
+
+          // Y axis labels (Platforms)
+          platformsSvg
+            .append("text")
+            .attr("class", "axis-label")
+            .attr("text-anchor", "middle")
+            .attr("x", width / 2)
+            .attr("y", -10)
+            .text("Authoritarian");
+
+          platformsSvg
+            .append("text")
+            .attr("class", "axis-label")
+            .attr("text-anchor", "middle")
+            .attr("x", width / 2)
+            .attr("y", height + 20)
+            .text("Libertarian");
+
+          // Quadrant labels (Platforms)
+          platformsSvg
+            .append("text")
+            .attr("class", "quadrant-label")
+            .attr("x", width * 0.25)
+            .attr("y", height * 0.25)
+            .text("Authoritarian-Left");
+
+          platformsSvg
+            .append("text")
+            .attr("class", "quadrant-label")
+            .attr("x", width * 0.75)
+            .attr("y", height * 0.25)
+            .text("Authoritarian-Right");
+
+          platformsSvg
+            .append("text")
+            .attr("class", "quadrant-label")
+            .attr("x", width * 0.25)
+            .attr("y", height * 0.75)
+            .text("Libertarian-Left");
+
+          platformsSvg
+            .append("text")
+            .attr("class", "quadrant-label")
+            .attr("x", width * 0.75)
+            .attr("y", height * 0.75)
+            .text("Libertarian-Right");
+
+          // Draw timeline axis
+          const centerY = 50;
+
+          timelineSvg
+            .append("line")
+            .attr("x1", 0)
+            .attr("y1", centerY)
+            .attr("x2", timelineWidth)
+            .attr("y2", centerY)
+            .attr("stroke", "#d1d5db")
+            .attr("stroke-width", 2);
+
+          // Add year marks to timeline
+          for (let year = minYear; year <= maxYear; year++) {
+            timelineSvg
+              .append("line")
+              .attr("x1", timelineX(year))
+              .attr("y1", centerY - 5)
+              .attr("x2", timelineX(year))
+              .attr("y2", centerY + 5)
+              .attr("stroke", "#d1d5db")
+              .attr("stroke-width", 1);
+
+            timelineSvg
+              .append("text")
+              .attr("x", timelineX(year))
+              .attr("y", centerY + 18)
+              .attr("text-anchor", "middle")
+              .attr("font-size", "10px")
+              .attr("fill", "#64748b")
+              .text(year);
+          }
+
+          // Add a clickable area for the timeline
+          timelineSvg
+            .append("rect")
+            .attr("class", "timeline-area")
+            .attr("x", 0)
+            .attr("y", 30)
+            .attr("width", timelineWidth)
+            .attr("height", 40)
+            .attr("fill", "transparent")
+            .on("click", function (event) {
+              // Get mouse position relative to SVG
+              const [x] = d3.pointer(event);
+
+              // Constrain position to timeline bounds
+              const clampedX = Math.max(0, Math.min(timelineWidth, x));
+
+              // Calculate year from position
+              const year = Math.round(timelineX.invert(clampedX));
+
+              // Update scrubber position
+              scrubber.attr("cx", timelineX(year));
+
+              // Update year display and visualization
+              yearDisplay.textContent = year;
+              updateVisualization(year);
+
+              // Update details panel if a platform is selected
+              if (selectedPlatform) {
+                updatePlatformDetails();
+              }
+            });
+
+          // Add scrubber circle
+          const scrubber = timelineSvg
+            .append("circle")
+            .attr("class", "timeline-scrubber")
+            .attr("r", 9)
+            .attr("cx", timelineX(minYear)) // Start at min year
+            .attr("cy", centerY);
+
+          // Set up drag behavior for scrubber
+          const drag = d3
+            .drag()
+            .on("start", function () {
+              // Stop any ongoing animation
+              if (isPlaying) {
+                clearInterval(animationInterval);
+                playButton.innerHTML = "▶";
+                isPlaying = false;
+              }
+            })
+            .on("drag", function (event) {
+              // Constrain horizontal position
+              const x = Math.max(0, Math.min(timelineWidth, event.x));
+
+              // Update scrubber position
+              d3.select(this).attr("cx", x);
+
+              // Calculate year and update
+              const year = Math.round(timelineX.invert(x));
+              yearDisplay.textContent = year;
+              updateVisualization(year);
+
+              // Update details panel if a platform is selected
+              if (selectedPlatform) {
+                updatePlatformDetails();
+              }
+            });
+
+          // Apply drag behavior to scrubber
+          scrubber.call(drag);
+
+          // Tooltip
+          const tooltip = d3.select(".tooltip");
+
+          // Track which platform is selected for details panel
+          let selectedPlatform = null;
+          let highlightedPlatforms = new Set();
+
+          // Create the platform legend with clickable items
+          function createPlatformLegend() {
+            const legendContainer = document.getElementById("platform-legend");
+            legendContainer.innerHTML = ""; // Clear existing items
+
+            // Add "Show All" button
+            const showAllItem = document.createElement("div");
+            showAllItem.className = "legend-control";
+            showAllItem.innerHTML =
+              "<button id='show-all-btn'>Show All</button>";
+            showAllItem.addEventListener("click", () => {
+              highlightedPlatforms.clear(); // Clear selections
+              selectedPlatform = null;
+              updatePlatformDetails();
+              updateVisualization(parseInt(yearDisplay.textContent)); // Refresh
+            });
+            legendContainer.appendChild(showAllItem);
+
+            // Add platform items
+            uniquePlatforms.forEach((platform) => {
+              const legendItem = document.createElement("div");
+              legendItem.className = "legend-item";
+              legendItem.setAttribute("data-platform", platform);
+
+              const colorBox = document.createElement("div");
+              colorBox.className = "legend-color";
+              colorBox.style.backgroundColor =
+                platformColors[platform] || "#888888";
+
+              const label = document.createElement("span");
+              label.textContent = platform;
+
+              legendItem.appendChild(colorBox);
+              legendItem.appendChild(label);
+
+              // Add click event to toggle highlight and show details
+              legendItem.addEventListener("click", () => {
+                const platform = legendItem.getAttribute("data-platform");
+
+                if (platform === selectedPlatform) {
+                  // Deselect if already selected
+                  selectedPlatform = null;
+                  highlightedPlatforms.clear();
+                  legendItem.classList.remove("highlighted");
+                } else {
+                  // Select new platform
+                  document.querySelectorAll(".legend-item").forEach((item) => {
+                    item.classList.remove("highlighted");
+                  });
+
+                  selectedPlatform = platform;
+                  highlightedPlatforms.clear();
+                  highlightedPlatforms.add(platform);
+                  legendItem.classList.add("highlighted");
+                }
+
+                updatePlatformDetails();
+                updateVisualization(parseInt(yearDisplay.textContent));
+              });
+
+              legendContainer.appendChild(legendItem);
+            });
+          }
+
+          // Create legend
+          createPlatformLegend();
+
+          // Function to update the details panel
+          function updatePlatformDetails() {
+            const detailsContainer =
+              document.getElementById("platform-details");
+            const helpText = document.querySelector(".details-help");
+
+            if (!selectedPlatform) {
+              detailsContainer.innerHTML = "";
+              helpText.style.display = "block";
+              return;
+            }
+
+            helpText.style.display = "none";
+
+            // Get the current year from the timeline
+            const currentYear = parseInt(yearDisplay.textContent);
+
+            // Find the platform data for the selected year (or closest previous year)
+            let platformData = null;
+
+            // Filter data for selected platform
+            const platformHistory = platformPositionData
+              .filter((d) => d.platform === selectedPlatform)
+              .sort((a, b) => b.year - a.year); // Sort descending by year
+
+            // Find the most recent entry for this platform up to the current year
+            for (const entry of platformHistory) {
+              if (entry.year <= currentYear) {
+                platformData = entry;
+                break;
+              }
+            }
+
+            if (!platformData) {
+              detailsContainer.innerHTML = `<p>No data available for ${selectedPlatform} in or before ${currentYear}</p>`;
+              return;
+            }
+
+            // Update details panel
+            detailsContainer.innerHTML = `
+              <h3>${platformData.platform}</h3>
+              <p class="details-year">Year: ${platformData.year}</p>
+              <p class="details-position">Position: (${platformData.x}, ${platformData.y})</p>
+              <p class="details-description">${platformData.description}</p>
+            `;
+          }
+
+          // Function to update timeline with external events
+          function updateTimeline(year) {
+            // Filter timeline events by year
+            const filteredEvents = timelineEvents.filter((d) => d.year <= year);
+
+            // Clear previous timeline elements, but NOT the main axis and scrubber
+            timelineSvg.selectAll(".timeline-event-marker").remove();
+            timelineSvg.selectAll(".timeline-connector-line").remove();
+            timelineSvg.selectAll(".top-event-label").remove();
+            timelineSvg.selectAll(".bottom-event-label").remove();
+
+            // Add connector lines and markers for each year with events
+            let topIndex = 0;
+            let bottomIndex = 0;
+
+            // Timeline center position (vertical)
+            const centerY = 50;
+
+            filteredEvents.forEach((d, i) => {
+              // Decide whether to place the marker above or below the timeline
+              const isTop = i % 2 === 0;
+              // Position markers further from timeline with more space
+              const markerY = isTop ? centerY - 35 : centerY + 35;
+
+              // Add connector line from timeline to marker
+              timelineSvg
+                .append("line")
+                .attr("class", "timeline-connector-line")
+                .attr("x1", timelineX(d.year))
+                .attr("y1", centerY)
+                .attr("x2", timelineX(d.year))
+                .attr("y2", markerY);
+
+              // Add event marker
+              timelineSvg
+                .append("circle")
+                .attr("class", "timeline-event-marker")
+                .attr("r", 6)
+                .attr("cx", timelineX(d.year))
+                .attr("cy", markerY)
+                .on("mouseover", (event) => {
+                  tooltip.transition().duration(200).style("opacity", 1);
+                  tooltip
+                    .html(
+                      `<strong>External Event: ${d.event}</strong><br/>Year: ${
+                        d.year
+                      }<br/>${d.description || ""}`
+                    )
+                    .style(
+                      "left",
+                      Math.min(event.pageX + 10, window.innerWidth - 280) + "px"
+                    )
+                    .style("top", Math.max(event.pageY - 28, 0) + "px");
+                })
+                .on("mouseout", () => {
+                  tooltip.transition().duration(500).style("opacity", 0);
+                });
+
+              // Add labels for each event with more space and text wrapping
+              if (isTop) {
+                // Top labels - more space and potential for multiple lines
+                const label = timelineSvg
+                  .append("text")
+                  .attr("class", "top-event-label timeline-event")
+                  .attr("x", timelineX(d.year))
+                  .attr("y", markerY - 15 - topIndex * 14)
+                  .attr("text-anchor", "middle");
+
+                // Split long event names
+                const words = d.event.split(" ");
+                if (words.length > 3) {
+                  const firstLine = words
+                    .slice(0, Math.ceil(words.length / 2))
+                    .join(" ");
+                  const secondLine = words
+                    .slice(Math.ceil(words.length / 2))
+                    .join(" ");
+                  label
+                    .append("tspan")
+                    .attr("x", timelineX(d.year))
+                    .attr("dy", "0em")
+                    .text(firstLine);
+                  label
+                    .append("tspan")
+                    .attr("x", timelineX(d.year))
+                    .attr("dy", "1.1em")
+                    .text(secondLine);
+                } else {
+                  label.text(d.event);
+                }
+                topIndex++;
+              } else {
+                // Bottom labels - more space and potential for multiple lines
+                const label = timelineSvg
+                  .append("text")
+                  .attr("class", "bottom-event-label timeline-event")
+                  .attr("x", timelineX(d.year))
+                  .attr("y", markerY + 15 + bottomIndex * 14)
+                  .attr("text-anchor", "middle");
+
+                // Split long event names
+                const words = d.event.split(" ");
+                if (words.length > 3) {
+                  const firstLine = words
+                    .slice(0, Math.ceil(words.length / 2))
+                    .join(" ");
+                  const secondLine = words
+                    .slice(Math.ceil(words.length / 2))
+                    .join(" ");
+                  label
+                    .append("tspan")
+                    .attr("x", timelineX(d.year))
+                    .attr("dy", "0em")
+                    .text(firstLine);
+                  label
+                    .append("tspan")
+                    .attr("x", timelineX(d.year))
+                    .attr("dy", "1.1em")
+                    .text(secondLine);
+                } else {
+                  label.text(d.event);
+                }
+                bottomIndex++;
+              }
+            });
+          }
+
+          // Function to update Platforms visualization
+          function updatePlatforms(year) {
+            // Filter platform data by year
+            const filteredData = platformPositionData.filter(
+              (d) => parseInt(d.year) <= year
+            );
+
+            // Create a Map to get the latest position for each platform
+            const latestPositions = new Map();
+            filteredData.forEach((d) => {
+              latestPositions.set(d.platform, d);
+            });
+
+            // Convert the Map values to an array
+            const currentPositions = Array.from(latestPositions.values());
+
+            // Update platform circles
+            const circles = platformsSvg
+              .selectAll("circle.platform-circle")
+              .data(currentPositions, (d) => d.platform);
+
+            circles.exit().remove();
+
+            circles
+              .enter()
+              .append("circle")
+              .attr("r", 8)
+              .attr(
+                "class",
+                (d) => `platform-circle ${platformToClass(d.platform)}-circle`
+              )
+              .merge(circles)
+              .attr("cx", (d) => x(parseFloat(d.x)))
+              .attr("cy", (d) => y(parseFloat(d.y)))
+              .attr("opacity", (d) => {
+                // If we have highlighted platforms, dim the others
+                if (highlightedPlatforms.size > 0) {
+                  return highlightedPlatforms.has(d.platform) ? 1 : 0.2;
+                }
+                return 0.9;
+              })
+              .attr("r", (d) => {
+                // Make highlighted platforms larger
+                return highlightedPlatforms.has(d.platform) ? 10 : 8;
+              })
+              .style("stroke", (d) => {
+                // Add stroke to highlighted platforms
+                return highlightedPlatforms.has(d.platform) ? "#fff" : "none";
+              })
+              .style("stroke-width", (d) => {
+                return highlightedPlatforms.has(d.platform) ? 2 : 0;
+              })
+              .on("mouseover", (event, d) => {
+                tooltip.transition().duration(200).style("opacity", 1);
+                tooltip
+                  .html(
+                    `<strong>${d.platform}</strong><br/>
+                     Year: ${d.year}<br/>
+                     Position: (${d.x}, ${d.y})`
+                  )
+                  .style(
+                    "left",
+                    Math.min(event.pageX + 10, window.innerWidth - 280) + "px"
+                  )
+                  .style("top", Math.max(event.pageY - 28, 0) + "px");
+              })
+              .on("mouseout", () => {
+                tooltip.transition().duration(500).style("opacity", 0);
+              })
+              .on("click", (event, d) => {
+                // Select this platform and show details
+                const platform = d.platform;
+
+                if (selectedPlatform === platform) {
+                  // Deselect if already selected
+                  selectedPlatform = null;
+                  highlightedPlatforms.clear();
+
+                  // Remove highlighting from legend
+                  document.querySelectorAll(".legend-item").forEach((item) => {
+                    item.classList.remove("highlighted");
+                  });
+                } else {
+                  // Select new platform
+                  selectedPlatform = platform;
+                  highlightedPlatforms.clear();
+                  highlightedPlatforms.add(platform);
+
+                  // Update legend highlighting
+                  document.querySelectorAll(".legend-item").forEach((item) => {
+                    if (item.getAttribute("data-platform") === platform) {
+                      item.classList.add("highlighted");
+                    } else {
+                      item.classList.remove("highlighted");
+                    }
+                  });
+                }
+
+                // Update details panel and visualization
+                updatePlatformDetails();
+                updateVisualization(year);
+              });
+
+            // Update platform labels with better spacing
+            const labels = platformsSvg
+              .selectAll("text.platform-label")
+              .data(currentPositions, (d) => d.platform);
+
+            labels.exit().remove();
+
+            labels
+              .enter()
+              .append("text")
+              .attr("class", "platform-label point-label")
+              .merge(labels)
+              .attr("x", (d) => x(parseFloat(d.x)) + 10)
+              .attr("y", (d) => y(parseFloat(d.y)) - 8)
+              .text((d) => d.platform)
+              .attr("opacity", (d) => {
+                // If we have highlighted platforms, dim the others
+                if (highlightedPlatforms.size > 0) {
+                  return highlightedPlatforms.has(d.platform) ? 1 : 0.2;
+                }
+                return 0.9;
+              });
+
+            // Update timeline with external events
+            updateTimeline(year);
+          }
+
+          // Main function to update visualization based on year
+          function updateVisualization(year) {
+            updatePlatforms(year);
+          }
+
+          // Timeline functionality
+          const yearSlider = document.getElementById("yearSlider");
+          const yearDisplay = document.getElementById("yearDisplay");
+          const playButton = document.getElementById("playButton");
+          let animationInterval;
+          let isPlaying = false;
+
+          // Update year slider min/max based on data
+          yearSlider.min = minYear;
+          yearSlider.max = maxYear;
+          yearSlider.value = minYear;
+          yearDisplay.textContent = minYear;
+
+          yearSlider.addEventListener("input", function () {
+            const year = parseInt(this.value);
+            yearDisplay.textContent = year;
+            updateVisualization(year);
+
+            // Also update details panel if a platform is selected
+            if (selectedPlatform) {
+              updatePlatformDetails();
+            }
+          });
+
+          playButton.addEventListener("click", function () {
+            if (isPlaying) {
+              clearInterval(animationInterval);
+              playButton.innerHTML = "▶";
+              isPlaying = false;
+            } else {
+              playButton.innerHTML = "⏸";
+              isPlaying = true;
+              if (parseInt(yearDisplay.textContent) >= maxYear) {
+                yearDisplay.textContent = minYear;
+                scrubber.attr("cx", timelineX(minYear));
+              }
+
+              animationInterval = setInterval(() => {
+                const currentYear = parseInt(yearDisplay.textContent);
+                if (currentYear < maxYear) {
+                  const nextYear = currentYear + 1;
+                  yearDisplay.textContent = nextYear;
+                  scrubber.attr("cx", timelineX(nextYear));
+                  updateVisualization(nextYear);
+
+                  // Update details panel if a platform is selected
+                  if (selectedPlatform) {
+                    updatePlatformDetails();
+                  }
+                } else {
+                  clearInterval(animationInterval);
+                  playButton.innerHTML = "▶";
+                  isPlaying = false;
+                }
+              }, 1000);
+            }
+          });
+
+          // Initialize visualization
+          updateVisualization(minYear);
+        }
+      });
+    </script>
+  </body>
+</html>

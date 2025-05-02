@@ -1,0 +1,1040 @@
+/* Base styles */
+:root {
+  --bg-color: #09090b;
+  --card-bg: #18181b;
+  --border-color: #27272a;
+  --text-color: #f4f4f5;
+  --text-muted: #a1a1aa;
+  --primary-color: #06b6d4;
+  --secondary-color: #8b5cf6;
+  --accent-color: #f472b6;
+  --radius: 0.5rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+h1 {
+  font-size: 1.875rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.125rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.gradient-text {
+  background: linear-gradient(
+    to right,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Layout */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: 300px 1fr;
+  }
+}
+
+@media (min-width: 1320px) {
+  .grid {
+    grid-template-columns: 300px 1fr 300px; /* Left sidebar, main content, right panel */
+  }
+
+  .side-panel {
+    display: block;
+  }
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+/* Cards */
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0.5rem 1rem;
+}
+
+.btn i {
+  margin-right: 0.5rem;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+}
+
+.btn-outline:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-ghost {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 0.25rem;
+}
+
+.btn-ghost:hover {
+  color: var(--text-color);
+}
+
+.btn-sm {
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+}
+
+/* Filters */
+.filter-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.platform-list {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.platform-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.platform-checkbox {
+  margin-right: 0.5rem;
+}
+
+.platform-label {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.platform-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  color: white;
+}
+
+.selected-event {
+  margin-top: 1.5rem;
+  padding: 0.75rem;
+  background-color: #27272a;
+  border-radius: var(--radius);
+}
+
+.selected-event h3 {
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.selected-event p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Matrix */
+.matrix-container {
+  position: relative;
+  padding: 2rem 0;
+}
+
+.matrix {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 1/1;
+  margin: 0 auto;
+}
+
+.matrix-axes {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.axis-horizontal {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background-color: var(--border-color);
+}
+
+.axis-vertical {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background-color: var(--border-color);
+}
+
+.axis-label {
+  position: absolute;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.axis-label.top {
+  top: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.axis-label.bottom {
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.axis-label.left {
+  left: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.axis-label.right {
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.platform-dot {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid;
+  z-index: 1;
+  overflow: hidden; /* Important for containing the image */
+}
+
+.platform-dot:hover {
+  transform: translate(-50%, -50%) scale(1.2);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  z-index: 10; /* Ensure it appears above other dots when hovered */
+}
+
+.platform-dot i {
+  font-size: 16px;
+}
+
+.platform-dot img {
+  width: 32px !important;
+  height: 32px !important;
+  filter: drop-shadow(
+    0 2px 4px rgba(0, 0, 0, 0.5)
+  ) !important; /* ONLY shadow, no invert/brightness filter */
+}
+
+.year-badge {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.year-badge span {
+  display: inline-block;
+  padding: 0.25rem 1rem;
+  border-radius: 9999px;
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+/* Timeline */
+.timeline-slider {
+  margin-bottom: 1.5rem;
+}
+
+input[type="range"] {
+  width: 100%;
+  margin: 1rem 0;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: var(--border-color);
+  border-radius: 2px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  cursor: pointer;
+  border: none;
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.timeline-events h3 {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.events-container {
+  height: 200px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+
+.event-empty {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.event-item {
+  padding: 0.75rem;
+  background-color: rgba(39, 39, 42, 0.5);
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.event-item:hover {
+  background-color: #27272a;
+}
+
+.event-item.selected {
+  background-color: #27272a;
+  border-left: 4px solid var(--primary-color);
+}
+
+.event-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.25rem;
+}
+
+.event-title {
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.event-year {
+  font-size: 0.75rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+}
+
+.event-description {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.event-platforms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.platform-badge {
+  font-size: 0.75rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  background-color: #27272a;
+  color: var(--text-muted);
+}
+
+/* Platform cards */
+.platform-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .platform-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.platform-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  overflow: hidden;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.platform-card-header {
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem;
+}
+
+.platform-card-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.platform-card-name {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.platform-card-badge {
+  font-size: 0.75rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+}
+
+.platform-card-content {
+  padding: 1rem;
+}
+
+.platform-card-description {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.platform-card-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.platform-color-bar {
+  height: 4px;
+  width: 100%;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+  position: relative;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  max-width: 32rem;
+  width: 100%;
+  z-index: 10;
+  animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modal-body {
+  padding: 1rem;
+}
+
+.modal-body ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.modal-body li {
+  margin-bottom: 0.5rem;
+}
+
+.note {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 1rem;
+}
+
+/* Utility classes */
+.hidden {
+  display: none;
+}
+
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .mobile-only {
+    display: block;
+  }
+
+  .filters-content {
+    display: none;
+  }
+
+  .filters-content.show {
+    display: block;
+  }
+}
+.platform-img-icon {
+  width: 16px !important;
+  height: 16px !important;
+  margin-right: 8px;
+  vertical-align: middle;
+  object-fit: contain;
+}
+
+/* For platform dots in the matrix */
+.platform-dot img {
+  width: 32px !important;
+  height: 32px !important;
+  filter: drop-shadow(
+    0 2px 4px rgba(0, 0, 0, 0.5)
+  ) !important; /* ONLY shadow, no invert/brightness filter */
+}
+
+/* Add this to your styles.css file */
+/* Special styling for the Truth Social and Gab logos */
+#truthsocial-dot img,
+.platform-dot[data-platform-id="truthsocial"] img,
+#gab-dot img,
+.platform-dot[data-platform-id="gab"] img {
+  width: 32px !important;
+  height: 32px !important;
+  filter: drop-shadow(
+    0 2px 4px rgba(0, 0, 0, 0.5)
+  ) !important; /* ONLY shadow */
+}
+
+/* Slightly enlarge the dots themselves to accommodate larger logos */
+#truthsocial-dot,
+.platform-dot[data-platform-id="truthsocial"],
+#gab-dot,
+.platform-dot[data-platform-id="gab"] {
+  width: 38px !important;
+  height: 38px !important;
+}
+
+/* Add this to your styles.css file to replace the circular backgrounds with just the logos */
+
+/* Remove circular backgrounds and increase icon sizes for all platforms */
+.platform-dot {
+  background-color: transparent !important; /* Remove background */
+  border: none !important; /* Remove border */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Make all icons larger */
+.platform-dot i {
+  font-size: 28px !important; /* Larger Font Awesome icons */
+  filter: drop-shadow(
+    0 2px 4px rgba(0, 0, 0, 0.5)
+  ); /* Add shadow for visibility */
+}
+
+/* Special handling for platforms */
+/* For Truth Social and Gab, remove the invert */
+#truthsocial-dot img,
+.platform-dot[data-platform-id="truthsocial"] img,
+#gab-dot img,
+.platform-dot[data-platform-id="gab"] img {
+  width: 32px !important;
+  height: 32px !important;
+  filter: drop-shadow(
+    0 2px 4px rgba(0, 0, 0, 0.5)
+  ) !important; /* Reset filter, just add shadow */
+}
+
+/* Special handling for Threads - add white circular background */
+#threads-dot,
+.platform-dot[data-platform-id="threads"] {
+  background-color: white !important; /* White background */
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50% !important;
+  overflow: hidden;
+}
+
+#threads-dot i,
+.platform-dot[data-platform-id="threads"] i {
+  color: black !important; /* Ensure the @ symbol is black */
+}
+
+/* Make hover effect work without the circles */
+.platform-dot:hover {
+  transform: translate(-50%, -50%) scale(1.3) !important; /* Slightly larger scale */
+}
+
+/* For Font Awesome icons, color them according to their platform color */
+.platform-dot i {
+  color: inherit; /* Use the color specified in the JavaScript */
+}
+
+/* Add an !important override to make sure no SVG filters are being applied */
+.platform-dot img {
+  width: 32px !important;
+  height: 32px !important;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5)) !important;
+  mix-blend-mode: normal !important;
+  -webkit-filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5)) !important;
+}
+
+/* Ensure no other CSS is overriding these */
+.platform-dot * {
+  filter: none;
+}
+
+/* Add this to your styles.css file */
+/* Special styling for BlueSky logo */
+#bluesky-dot img,
+.platform-dot[data-platform-id="bluesky"] img {
+  width: 32px !important;
+  height: 32px !important;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5)) !important;
+}
+
+/* Add this to your styles.css file */
+.timeline-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+#play-timeline {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+#play-timeline i {
+  margin-right: 0.5rem;
+}
+
+#play-timeline:hover {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+/* Add this to your styles.css file */
+.timeline-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+#play-timeline {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+#play-timeline i {
+  margin-right: 0.5rem;
+}
+
+#play-timeline:hover {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+} /* Add this to your existing styles.css file */
+
+/* View selector styles */
+.view-selector {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.view-btn {
+  background-color: var(--card-bg);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.view-btn i {
+  margin-right: 0.5rem;
+}
+
+.view-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-color);
+}
+
+.view-btn.active {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .view-selector {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .view-btn {
+    width: 100%;
+  }
+}
+
+/* Add this to your styles.css file */
+.sub-view-container {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+}
+
+.sub-view-btn {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.sub-view-btn.active {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+/* Right side panel styles */
+.side-panel {
+  display: none; /* Initially hidden on mobile */
+}
+
+/* Platform detail styles */
+.empty-state {
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  text-align: center;
+  padding: 1rem;
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius);
+}
+
+.platform-detail {
+  animation: fadeIn 0.3s ease;
+}
+
+.platform-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.platform-detail-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.platform-detail-icon img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.platform-detail-icon i {
+  font-size: 30px;
+}
+
+.position-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.position-label {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-right: 0.5rem;
+}
+
+.position-values {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.detail-description {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin: 1rem 0;
+}
+
+.platform-detail-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.leader-dot:hover {
+  width: 32px;
+  height: 32px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 11;
+}
+
+.leader-role {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Add this to your styles.css file */
+.leader-dot {
+  background-color: white !important;
+  border: 2px solid #333 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #333;
+  z-index: 5;
+}
+
+.leader-dot span {
+  font-size: 14px;
+}
+
+.leader-dot:hover {
+  transform: translate(-50%, -50%) scale(1.2);
+  /* box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); */
+  z-index: 10;
+}
+
+.leader-dot {
+  transform: translate(-50%, -50%);
+  transition: transform 0.2s ease, filter 0.2s ease;
+  z-index: 15; /* Increased to ensure leader dots appear above platform dots */
+}
+
+.leader-dot:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  z-index: 20;
+}
+
+.leader-image {
+  width: 100px; /* Increased from 40px */
+  height: 100px; /* Increased from 40px */
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #333; /* Thicker border */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Image in the details panel */
+.leader-detail-image {
+  width: 120px; /* Increased from 80px */
+  height: 120px; /* Increased from 80px */
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #333;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Make fallback circles larger too */
+.leader-dot span {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.leader-dot:hover {
+  transform: translate(-50%, -50%) scale(1.2);
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.7));
+  z-index: 20;
+}
+
+.leader-image {
+  width: 70px;
+  height: 40px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}

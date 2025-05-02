@@ -1,0 +1,30 @@
+// === Political Platform Governance: Timeline Matrix === // X-axis: Left <->
+Right // Y-axis: Open Moderation <-> Restrictive Moderation let timeline = 2015;
+let slider; let entities = []; function setup() { createCanvas(900, 600);
+textAlign(CENTER, CENTER); textSize(12); slider = createSlider(2015, 2025, 2015,
+1); slider.position(100, height - 40); slider.style('width', '700px'); // Sample
+entities with positions over time entities = [ { name: "Twitter", color:
+color(29, 155, 240), positions: { 2015: { x: -0.2, y: -0.2 }, 2018: { x: 0.1, y:
+0.2 }, 2020: { x: 0.4, y: 0.5 }, 2022: { x: 0.7, y: -0.5 }, // post-Musk 2025: {
+x: 0.6, y: -0.6 } } }, { name: "Facebook", color: color(66, 103, 178),
+positions: { 2015: { x: 0.2, y: 0.3 }, 2018: { x: 0.3, y: 0.2 }, 2020: { x: 0.4,
+y: 0.3 }, 2022: { x: 0.4, y: 0.1 }, 2025: { x: 0.5, y: 0 } } }, { name: "Truth
+Social", color: color(220, 50, 50), positions: { 2022: { x: 0.9, y: -0.5 },
+2025: { x: 1, y: -0.6 } } } ]; } function draw() { background(255);
+drawQuadrants(); timeline = slider.value(); fill(0); text("Year: " + timeline,
+width / 2, height - 70); // Draw all entities for (let e of entities) { let pos
+= interpolatePosition(e.positions, timeline); if (pos) { let px = map(pos.x, -1,
+1, 100, width - 100); let py = map(pos.y, -1, 1, height - 100, 100);
+fill(e.color); noStroke(); ellipse(px, py, 20, 20); fill(0); text(e.name, px, py
++ 15); } } } function drawQuadrants() { stroke(200); line(width / 2, 100, width
+/ 2, height - 100); line(100, height / 2, width - 100, height / 2); fill(0);
+text("Left", 150, height / 2 - 20); text("Right", width - 150, height / 2 - 20);
+text("Open Moderation", width / 2, height - 120); text("Restrictive Moderation",
+width / 2, 120); } function interpolatePosition(positions, year) { let keys =
+Object.keys(positions).map(Number).sort((a, b) => a - b); if (year <= keys[0])
+return positions[keys[0]]; if (year >= keys[keys.length - 1]) return
+positions[keys[keys.length - 1]]; for (let i = 0; i < keys.length - 1; i++) {
+let y1 = keys[i]; let y2 = keys[i + 1]; if (year >= y1 && year <= y2) { let t =
+(year - y1) / (y2 - y1); let x = lerp(positions[y1].x, positions[y2].x, t); let
+y = lerp(positions[y1].y, positions[y2].y, t); return { x, y }; } } return null;
+}
