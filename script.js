@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Get the play button
     const playButton = document.getElementById("play-timeline");
 
-    // Rest of your setActiveSubView function...
+    // Handle different sub-views
     if (subView === "ban-activity") {
       console.log("Switching to Ban Activity view");
 
@@ -157,13 +157,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
       }
 
-      // Enable play button for time-based view and ensure it's properly styled
+      // Enable play button for time-based view
       if (playButton) {
         playButton.style.display = "flex";
         playButton.disabled = false;
         playButton.classList.remove("disabled");
-        playButton.style.pointerEvents = "auto"; // Ensure it's clickable
-        playButton.style.opacity = "1"; // Ensure it's fully visible
+        playButton.style.pointerEvents = "auto";
+        playButton.style.opacity = "1";
 
         // If we were playing when switching away, stop it
         if (isPlaying) {
@@ -171,17 +171,19 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
       }
 
-      // Rest of your ban-activity code
-      // ...
-    } else {
+      // Update the matrix with timeline data
+      updateMatrix();
+      updateTimelineEvents();
+      updatePlatformCards();
+    } else if (subView === "overall") {
       console.log("Switching to Overall view");
 
       // Disable play button for static view
       if (playButton) {
         playButton.disabled = true;
         playButton.classList.add("disabled");
-        playButton.style.pointerEvents = "none"; // Make it unclickable
-        playButton.style.opacity = "0.5"; // Make it appear disabled
+        playButton.style.pointerEvents = "none";
+        playButton.style.opacity = "0.5";
 
         // If we were playing when switching to Overall view, stop it
         if (isPlaying) {
@@ -189,8 +191,24 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
       }
 
-      // Rest of your overall view code
-      // ...
+      // Clear any timeline events since they don't apply to overall view
+      const eventsContainer = document.getElementById("events-container");
+      if (eventsContainer) {
+        eventsContainer.innerHTML =
+          '<div class="event-empty">Events not applicable in Overall view</div>';
+      }
+
+      // First make sure we have the overall platforms data loaded
+      if (
+        !window.overallPlatformsData ||
+        window.overallPlatformsData.length === 0
+      ) {
+        console.log("No overall data loaded yet, loading it now...");
+        loadAndShowOverallView();
+      } else {
+        console.log("Overall data already loaded, showing view");
+        showOverallView();
+      }
     }
   }
 
