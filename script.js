@@ -2323,7 +2323,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Create content for the details panel
     detailsPanel.innerHTML = `
       <div class="card">
-        <h2>Leadership Details</h2>
+        <h2>Details</h2>
         <div class="platform-detail">
           <div class="platform-detail-header">
             <h3>${leader.name} ${versionLabel}</h3>
