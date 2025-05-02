@@ -1,5 +1,6 @@
 Platform,Leader,Political_Position_X,Political_Position_Y,Notes
-X (Twitter),Elon Musk,0.7,-0.3,"Registered Independent but has publicly supported Republicans and Trump; appointed to Office of Government Efficiency"
+X (Twitter) - Owner,Elon Musk,0.7,-0.3,"Registered Independent but has publicly supported Republicans and Trump; appointed to Office of Government Efficiency"
+X (Twitter) - CEO,Linda Yaccarino,0.5,0.2,"Former NBCUniversal ad executive; appointed to Trump's Council on Sports Fitness and Nutrition in 2018; also partnered with Biden administration on COVID-19 vaccination campaign"
 Instagram/Threads,Adam Mosseri,0.0,0.2,"Officially neutral; initially limited political content recommendations but recently reversed policy to encourage more political discourse"
 Google,Sundar Pichai,-0.3,0.1,"Leans Democratic; donated to Democratic candidates; emphasized importance of accurate voting information amid accusations of platform bias"
 YouTube,Neal Mohan,0.0,0.3,"Officially neutral; platform criticized for hosting right-wing content while implementing policies to demonetize extremist content"
@@ -8,3 +9,4 @@ Mastodon,Eugen Rochko,-0.5,0.5,"Opposed far-right platforms using Mastodon's cod
 TikTok,Shou Zi Chew,0.0,0.0,"Neutral; company sponsored a $50,000 inauguration event for President-elect Donald Trump"
 Meta (2010-2020),Mark Zuckerberg,-0.2,0.0,"Initially aligned with Democrats; promoted connectivity and free expression; emphasized building community and social infrastructure"
 Meta (2021-2025),Mark Zuckerberg 2.0,0.3,0.1,"Increasingly close to Republicans; focused on metaverse investment; scaled back content moderation; faced internal backlash over departure from original social mission"
+Bluesky,Jay Graber,-0.4,0.3,"Digital rights activist; advocates for decentralized social media; emphasized user control over platforms and content moderation choices"

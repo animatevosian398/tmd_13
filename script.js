@@ -2057,7 +2057,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
-  // Update createLeaderDot function to make images larger with hover effect
+  // Update createLeaderDot function to fix GitHub Pages image loading
   function createLeaderDot(leader) {
     if (
       !leader.position ||
@@ -2084,7 +2084,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const y = Math.max(-1, Math.min(1, leader.position.y));
     const xPos = ((x + 1) / 2) * 100;
     const yPos = 100 - ((y + 1) / 2) * 100; // Invert Y for CSS
-    const yOffset = 5; // Small vertical offset
+    const yOffset = 0; // Changed to 0 for better centering
 
     container.style.left = `${xPos}%`;
     container.style.top = `${yPos + yOffset}%`;
@@ -2098,15 +2098,47 @@ document.addEventListener("DOMContentLoaded", async function () {
       imageName = "mark_zuckerberg"; // Use the base image
     }
 
-    // Create an image element for the leader - this will be directly in the container, no dot wrapper
+    // Create an image element for the leader
+
+    // FIX: Get the repository name for GitHub Pages
+    const repoPath = window.location.pathname.split("/")[1];
+    const isGitHubPages = window.location.hostname.includes("github.io");
+
+    // Use the correct image path based on hosting environment
+    let imagePath;
+    if (isGitHubPages && repoPath) {
+      // GitHub Pages path with repository name
+      imagePath = `/${repoPath}/tech_leaders_images/${imageName}.png`;
+    } else {
+      // Local development path
+      imagePath = `./tech_leaders_images/${imageName}.png`;
+    }
+
     const img = document.createElement("img");
-    img.src = `./tech_leaders_images/${imageName}.png`;
+    img.src = imagePath;
     img.alt = leader.name;
     img.className = "leader-image";
 
+    // Add error handling with multiple fallbacks
+    img.onerror = function () {
+      console.warn(
+        `Failed to load image at ${this.src}, trying fallback paths...`
+      );
+
+      // Try alternative paths
+      const fallbackPaths = [
+        `./tech_leaders_images/${imageName}.png`,
+        `/tech_leaders_images/${imageName}.png`,
+        `tech_leaders_images/${imageName}.png`,
+        `/test_tmd_timeline/tech_leaders_images/${imageName}.png`, // Explicit GitHub Pages path
+      ];
+
+      tryNextPath(img, fallbackPaths, 0, leader, container);
+    };
+
     // Make the image much larger and add styling directly to it
-    img.style.width = "70px"; // LARGER SIZE - adjust as needed
-    img.style.height = "70px"; // LARGER SIZE - adjust as needed
+    img.style.width = "70px"; // INCREASED from 70px to 120px
+    img.style.height = "70px"; // INCREASED from 70px to 120px
     img.style.borderRadius = "50%";
     img.style.border = "4px solid #333"; // Border directly on image
     img.style.objectFit = "cover"; // Switch to cover for better face display
@@ -2145,51 +2177,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     }
 
-    // Error handling if image doesn't load
-    img.onerror = function () {
-      console.warn(`Image not found for ${leader.name}: ${img.src}`);
-      this.remove();
-
-      // Create a fallback initial circle
-      const fallback = document.createElement("div");
-      fallback.style.width = "120px"; // Same size as image
-      fallback.style.height = "120px"; // Same size as image
-      fallback.style.borderRadius = "50%";
-      fallback.style.backgroundColor = "white";
-      fallback.style.border = "4px solid #333";
-      fallback.style.display = "flex";
-      fallback.style.alignItems = "center";
-      fallback.style.justifyContent = "center";
-      fallback.style.boxShadow = "0 4px 8px rgba(0,0,0,0.5)";
-      fallback.style.transition =
-        "transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease";
-
-      // Add hover effects to fallback
-      fallback.addEventListener("mouseenter", function () {
-        this.style.transform = "scale(1.1)";
-        this.style.boxShadow = "0 8px 16px rgba(0,0,0,0.6)";
-        this.style.borderColor = "#000";
-        this.style.zIndex = "60";
-      });
-
-      fallback.addEventListener("mouseleave", function () {
-        this.style.transform = "scale(1)";
-        this.style.boxShadow = "0 4px 8px rgba(0,0,0,0.5)";
-        this.style.borderColor = "#333";
-        this.style.zIndex = "50";
-      });
-
-      // Add leader initial
-      const initial = document.createElement("span");
-      initial.textContent = leader.name.charAt(0);
-      initial.style.color = "#333";
-      initial.style.fontWeight = "bold";
-      initial.style.fontSize = "50px"; // Larger font for initial
-      fallback.appendChild(initial);
-
-      container.appendChild(fallback);
-    };
-
     // Add tooltip with more details
     img.title = `${leader.name} (${leader.platform || ""})`;
 
@@ -2201,10 +2188,83 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Add cursor style
     img.style.cursor = "pointer";
 
-    // Add the image directly to the container (no dot wrapper)
+    // Add the image directly to the container
     container.appendChild(img);
 
     return container;
+  }
+
+  // Helper function to try loading images from different paths
+  function tryNextPath(imgElement, paths, index, leader, container) {
+    if (index >= paths.length) {
+      console.warn(`All image paths failed for ${leader.name}, using fallback`);
+      createFallbackInitial(leader, container, imgElement);
+      return;
+    }
+
+    // Try the next path
+    imgElement.src = paths[index];
+    imgElement.onerror = function () {
+      tryNextPath(imgElement, paths, index + 1, leader, container);
+    };
+  }
+
+  // Helper function to create fallback initial
+  function createFallbackInitial(leader, container, imgToReplace) {
+    // Remove the failed image
+    if (imgToReplace && imgToReplace.parentNode === container) {
+      imgToReplace.remove();
+    }
+
+    // Create a fallback initial circle
+    const fallback = document.createElement("div");
+    fallback.style.width = "120px"; // Same size as image
+    fallback.style.height = "120px"; // Same size as image
+    fallback.style.borderRadius = "50%";
+    fallback.style.backgroundColor = "white";
+    fallback.style.border = "4px solid #333";
+    fallback.style.display = "flex";
+    fallback.style.alignItems = "center";
+    fallback.style.justifyContent = "center";
+    fallback.style.boxShadow = "0 4px 8px rgba(0,0,0,0.5)";
+    fallback.style.transition =
+      "transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease";
+
+    // Add hover effects to fallback
+    fallback.addEventListener("mouseenter", function () {
+      this.style.transform = "scale(1.1)";
+      this.style.boxShadow = "0 8px 16px rgba(0,0,0,0.6)";
+      this.style.borderColor = "#000";
+      this.style.zIndex = "60";
+    });
+
+    fallback.addEventListener("mouseleave", function () {
+      this.style.transform = "scale(1)";
+      this.style.boxShadow = "0 4px 8px rgba(0,0,0,0.5)";
+      this.style.borderColor = "#333";
+      this.style.zIndex = "50";
+    });
+
+    // Add leader initial
+    const initial = document.createElement("span");
+    initial.textContent = leader.name.charAt(0);
+    initial.style.color = "#333";
+    initial.style.fontWeight = "bold";
+    initial.style.fontSize = "50px"; // Larger font for initial
+    fallback.appendChild(initial);
+
+    // Add click event to show details
+    fallback.addEventListener("click", () => {
+      showLeaderDetails(leader);
+    });
+
+    // Add tooltip
+    fallback.title = `${leader.name} (${leader.platform || ""})`;
+
+    // Add cursor style
+    fallback.style.cursor = "pointer";
+
+    container.appendChild(fallback);
   }
 
   // Show leader details in the right panel
