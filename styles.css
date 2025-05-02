@@ -221,13 +221,13 @@ p {
 /* Matrix */
 .matrix-container {
   position: relative;
-  padding: 2rem 0;
+  padding: 5rem 0; /* Slightly increased from 4rem */
 }
 
 .matrix {
   position: relative;
   width: 100%;
-  max-width: 500px;
+  max-width: 600px; /* Increased from 500px */
   aspect-ratio: 1/1;
   margin: 0 auto;
 }
@@ -261,7 +261,7 @@ p {
 
 .axis-label {
   position: absolute;
-  font-size: 0.75rem;
+  font-size: 0.8rem; /* Slightly increased */
   color: var(--text-muted);
 }
 
@@ -291,8 +291,8 @@ p {
 
 .platform-dot {
   position: absolute;
-  width: 32px;
-  height: 32px;
+  width: 35px; /* Slightly increased from original size */
+  height: 35px;
   border-radius: 50%;
   transform: translate(-50%, -50%);
   display: flex;
@@ -1001,8 +1001,8 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .leader-image {
-  width: 100px; /* Increased from 40px */
-  height: 100px; /* Increased from 40px */
+  width: 120px; /* Ensure consistency with your intended size */
+  height: 120px;
   object-fit: cover;
   border-radius: 50%;
   border: 3px solid #333; /* Thicker border */

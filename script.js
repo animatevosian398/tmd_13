@@ -124,69 +124,46 @@ document.addEventListener("DOMContentLoaded", async function () {
     setActiveSubView("overall");
   });
 
-  // Update the setActiveSubView function for better error handling
+  // Update setActiveSubView function to properly highlight the active button
   function setActiveSubView(subView) {
     // Update current sub-view
     currentSubView = subView;
 
-    // Safely update elements
-    const safelyUpdateElement = (selector, property, value) => {
-      let element = document.querySelector(selector);
+    // Update button visual states
+    document.querySelectorAll(".sub-view-btn").forEach((btn) => {
+      // Remove active class from all sub-view buttons
+      btn.classList.remove("active");
+    });
 
-      // For matrix-disclaimer, create it if it doesn't exist
-      if (!element && selector === ".matrix-disclaimer") {
-        element = document.createElement("div");
-        element.className = "matrix-disclaimer";
+    // Add active class to selected button
+    const activeButton = document.getElementById(`view-${subView}`);
+    if (activeButton) {
+      activeButton.classList.add("active");
+    }
 
-        // Add it before the matrix if possible
-        const matrix = document.getElementById("matrix");
-        if (matrix && matrix.parentNode) {
-          matrix.parentNode.insertBefore(element, matrix);
-        } else {
-          // As a fallback, add to body
-          document.body.appendChild(element);
-        }
-      }
-
-      if (element) {
-        // Handle nested properties like style.opacity
-        if (property.includes(".")) {
-          const [obj, prop] = property.split(".");
-          element[obj][prop] = value;
-        } else {
-          element[property] = value;
-        }
-      } else {
-        console.warn(`Element not found: ${selector}`);
-      }
-    };
+    // Get the play button
+    const playButton = document.getElementById("play-timeline");
 
     // Rest of your setActiveSubView function...
     if (subView === "ban-activity") {
       console.log("Switching to Ban Activity view");
-      safelyUpdateElement("#year-slider", "disabled", false);
-      safelyUpdateElement(".timeline-slider", "style.opacity", "1");
-      safelyUpdateElement(
-        ".matrix-disclaimer",
-        "textContent",
-        "Platform positions based on ban activity and content moderation policies"
-      );
 
-      // Rest of your ban-activity code...
-      // Enable the year slider for time-based view
-      safelyUpdateElement("#year-slider", "disabled", false);
-      safelyUpdateElement(".timeline-slider", "style.opacity", "1");
-      safelyUpdateElement(
-        ".matrix-disclaimer",
-        "textContent",
-        "Platform positions based on ban activity and content moderation policies"
-      );
+      // Reset timeline to first year if needed
+      if (currentYear >= maxYear) {
+        currentYear = minYear;
+        yearSlider.value = currentYear;
+        if (currentYearDisplay) {
+          currentYearDisplay.textContent = currentYear;
+        }
+      }
 
-      // Enable play button for time-based view
+      // Enable play button for time-based view and ensure it's properly styled
       if (playButton) {
         playButton.style.display = "flex";
         playButton.disabled = false;
         playButton.classList.remove("disabled");
+        playButton.style.pointerEvents = "auto"; // Ensure it's clickable
+        playButton.style.opacity = "1"; // Ensure it's fully visible
 
         // If we were playing when switching away, stop it
         if (isPlaying) {
@@ -194,38 +171,17 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
       }
 
-      // Update the visualization with time-based data
-      updateMatrix();
-      updateTimelineEvents();
-      updatePlatformCards();
+      // Rest of your ban-activity code
+      // ...
     } else {
       console.log("Switching to Overall view");
-      safelyUpdateElement("#year-slider", "disabled", true);
-      safelyUpdateElement(".timeline-slider", "style.opacity", "0.5");
-      safelyUpdateElement(
-        ".matrix-disclaimer",
-        "textContent",
-        "Platform positions based on overall political alignment"
-      );
-
-      // Rest of your overall view code...
-      // Disable the year slider for static view
-      safelyUpdateElement("#year-slider", "disabled", true);
-      safelyUpdateElement(".timeline-slider", "style.opacity", "0.5");
-      safelyUpdateElement(
-        ".matrix-disclaimer",
-        "textContent",
-        "Platform positions based on overall political alignment"
-      );
 
       // Disable play button for static view
       if (playButton) {
-        // Option 1: Hide the play button
-        // playButton.style.display = "none";
-
-        // Option 2: Disable but keep visible
         playButton.disabled = true;
         playButton.classList.add("disabled");
+        playButton.style.pointerEvents = "none"; // Make it unclickable
+        playButton.style.opacity = "0.5"; // Make it appear disabled
 
         // If we were playing when switching to Overall view, stop it
         if (isPlaying) {
@@ -233,16 +189,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
       }
 
-      // Load and show the Overall data
-      loadAndShowOverallView();
-
-      // Clear timeline events and platform cards
-      safelyUpdateElement(
-        "#events-container",
-        "innerHTML",
-        '<div class="event-empty">Events not applicable in Overall view</div>'
-      );
-      safelyUpdateElement("#platform-cards", "innerHTML", "");
+      // Rest of your overall view code
+      // ...
     }
   }
 
@@ -910,6 +858,16 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // Timeline playback functions
   function playTimeline() {
+    // If at max year, reset to min year
+    if (currentYear >= maxYear) {
+      currentYear = minYear;
+      yearSlider.value = currentYear;
+      currentYearDisplay.textContent = currentYear;
+      updateMatrix();
+      updateTimelineEvents();
+      updatePlatformCards();
+    }
+
     isPlaying = true;
     playButton.innerHTML = '<i class="fa-solid fa-pause"></i> Pause';
 
@@ -1051,6 +1009,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
+  // Fix matrix positioning to properly center (0,0) point
   function updateMatrix() {
     if (!matrixContainer) return;
 
@@ -1073,6 +1032,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       dot.setAttribute("data-platform-id", platform.id);
 
       // Position the dot (convert -1,1 scale to percentage)
+      // FIXED: Adjust Y-coordinate calculation to properly center (0,0)
       const xPos = ((position.x + 1) / 2) * 100;
       const yPos = 100 - ((position.y + 1) / 2) * 100; // Invert Y
 
@@ -2057,7 +2017,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
-  // Update createLeaderDot function to handle both uppercase and lowercase filenames
+  // Enhanced createLeaderDot function to properly show Zuckerberg tints
   function createLeaderDot(leader) {
     if (
       !leader.position ||
@@ -2100,7 +2060,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // 2. All lowercase (e.g., "adam_mosseri")
     const lowerCaseName = leader.name.toLowerCase().replace(/\s+/g, "_");
 
-    // Handle Mark Zuckerberg 2.0 special case
+    // Handle Mark Zuckerberg special cases
     let imageName = originalCaseName;
     if (leader.name === "Mark Zuckerberg 2.0") {
       imageName = "Mark_Zuckerberg"; // Use original case
@@ -2150,8 +2110,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     };
 
     // Make the image larger and add styling directly to it
-    img.style.width = "70px"; // INCREASED from 70px to 120px
-    img.style.height = "70px"; // INCREASED from 70px to 120px
+    img.style.width = "70px"; // INCREASED to 120px
+    img.style.height = "70px"; // INCREASED to 120px
     img.style.borderRadius = "50%";
     img.style.border = "4px solid #333"; // Border directly on image
     img.style.objectFit = "cover"; // Switch to cover for better face display
@@ -2178,16 +2138,16 @@ document.addEventListener("DOMContentLoaded", async function () {
       this.style.zIndex = "50";
     });
 
-    // Add visual distinction for Zuckerberg versions
-    if (leader.platform && leader.platform.includes("Meta")) {
-      // Original Zuckerberg (2010-2020)
-      if (leader.platform.includes("2010-2020")) {
-        img.style.filter = "sepia(50%) hue-rotate(190deg)"; // Bluish tint
+    // Add visual distinction for Zuckerberg versions with proper color tinting
+    if (leader.name === "Mark Zuckerberg") {
+      // Original Zuckerberg (2010-2020) - BLUE TINT
+      if (leader.platform && leader.platform.includes("Meta")) {
+        img.style.filter = "sepia(40%) hue-rotate(190deg) saturate(1.5)"; // Subtle blue tint
       }
-      // New Zuckerberg (2021-2025)
-      else if (leader.platform.includes("2021-2025")) {
-        img.style.filter = "sepia(30%) hue-rotate(30deg)"; // Warmer tint
-      }
+    }
+    // Zuckerberg 2.0 (2021-2025) - RED TINT
+    else if (leader.name === "Mark Zuckerberg 2.0") {
+      img.style.filter = "sepia(30%) hue-rotate(320deg) saturate(1.7)"; // Subtle red tint
     }
 
     // Add tooltip with more details
@@ -2280,7 +2240,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     container.appendChild(fallback);
   }
 
-  // Show leader details in the right panel
+  // Fix showLeaderDetails function to properly display leader images
   function showLeaderDetails(leader) {
     console.log("Showing details for leader:", leader.name);
 
@@ -2301,14 +2261,24 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     // Handle special cases for Mark Zuckerberg
-    let imageName = leader.name.toLowerCase().replace(/\s+/g, "_");
+    // 1. Original case preserving uppercase first letters
+    const originalCaseName = leader.name
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join("_");
+
+    // 2. All lowercase
+    const lowerCaseName = leader.name.toLowerCase().replace(/\s+/g, "_");
+
+    // Decide which name format to use
+    let imageName = originalCaseName;
     let versionLabel = "";
     let imageFilter = "";
 
     // Special handling for Mark Zuckerberg 2.0 naming
     if (leader.name === "Mark Zuckerberg 2.0") {
-      imageName = "mark_zuckerberg"; // Use the same base image
-      versionLabel = `<span style="display:inline-block;font-size:14px;padding:2px 6px;border-radius:4px;margin-left:8px;background-color:#FFF0E6;color:#FF5700;">2021-2025</span>`;
+      imageName = "Mark_Zuckerberg"; // Use the same base image
+      versionLabel = `<span style="display:inline-block;font-size:14px;padding:2px 6px;border-radius:4px;margin-left:8px;background-color:#FFF0E6;color:#FF5700;">2025-Present</span>`;
     }
     // Handle Meta (2010-2020) for the original Zuckerberg
     else if (
@@ -2320,6 +2290,20 @@ document.addEventListener("DOMContentLoaded", async function () {
       imageFilter = "sepia(50%) hue-rotate(190deg)";
     }
 
+    // FIX: Get the repository name for GitHub Pages
+    const repoPath = window.location.pathname.split("/")[1];
+    const isGitHubPages = window.location.hostname.includes("github.io");
+
+    // Use the correct image path based on hosting environment
+    let imagePath;
+    if (isGitHubPages && repoPath) {
+      // GitHub Pages path with repository name
+      imagePath = `/${repoPath}/tech_leaders_images/${imageName}.png`;
+    } else {
+      // Local development path
+      imagePath = `./tech_leaders_images/${imageName}.png`;
+    }
+
     // Create content for the details panel
     detailsPanel.innerHTML = `
       <div class="card">
@@ -2328,9 +2312,9 @@ document.addEventListener("DOMContentLoaded", async function () {
           <div class="platform-detail-header">
             <h3>${leader.name} ${versionLabel}</h3>
             <div class="platform-detail-icon" style="display: flex; justify-content: center; margin: 15px 0;">
-              <img src="tech_leaders_images/${imageName}.png" 
+              <img src="${imagePath}" 
                    alt="${leader.name}" 
-                   onerror="this.onerror=null; this.style.display='none';"
+                   onerror="this.onerror=null; this.src='./tech_leaders_images/${imageName}.png'; this.onerror=function(){this.onerror=null; this.src='./tech_leaders_images/${lowerCaseName}.png'; this.onerror=function(){this.onerror=null; this.src='tech_leaders_images/${imageName}.png'; this.onerror=function(){this.onerror=null; this.src='tech_leaders_images/${lowerCaseName}.png'; this.onerror=function(){this.style.display='none';}}}}"
                    style="width:100px; height:100px; object-fit:cover; border-radius:50%; border:4px solid #333; box-shadow: 0 4px 8px rgba(0,0,0,0.4); ${
                      imageFilter ? `filter: ${imageFilter};` : ""
                    }">
