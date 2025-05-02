@@ -2057,7 +2057,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
-  // Update createLeaderDot function to use lowercase image paths
+  // Update createLeaderDot function to handle both uppercase and lowercase filenames
   function createLeaderDot(leader) {
     if (
       !leader.position ||
@@ -2090,16 +2090,22 @@ document.addEventListener("DOMContentLoaded", async function () {
     container.style.top = `${yPos + yOffset}%`;
     container.style.transform = "translate(-50%, -50%)"; // Center the container
 
-    // IMPORTANT FIX: Use lowercase for image filenames
-    // Convert image name to lowercase for GitHub Pages compatibility
-    let imageName = leader.name.toLowerCase().replace(/\s+/g, "_");
+    // Generate different case versions of the filename
+    // 1. Original case preserving uppercase first letters (e.g., "Adam_Mosseri")
+    const originalCaseName = leader.name
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join("_");
+
+    // 2. All lowercase (e.g., "adam_mosseri")
+    const lowerCaseName = leader.name.toLowerCase().replace(/\s+/g, "_");
 
     // Handle Mark Zuckerberg 2.0 special case
+    let imageName = originalCaseName;
     if (leader.name === "Mark Zuckerberg 2.0") {
-      imageName = "mark_zuckerberg"; // Use the base image (lowercase)
+      imageName = "Mark_Zuckerberg"; // Use original case
     }
 
-    // Create an image element for the leader
     // FIX: Get the repository name for GitHub Pages
     const repoPath = window.location.pathname.split("/")[1];
     const isGitHubPages = window.location.hostname.includes("github.io");
@@ -2107,10 +2113,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Use the correct image path based on hosting environment
     let imagePath;
     if (isGitHubPages && repoPath) {
-      // GitHub Pages path with repository name (use lowercase for image filename)
+      // GitHub Pages path with repository name (try original case first)
       imagePath = `/${repoPath}/tech_leaders_images/${imageName}.png`;
     } else {
-      // Local development path (use lowercase for image filename)
+      // Local development path
       imagePath = `./tech_leaders_images/${imageName}.png`;
     }
 
@@ -2119,24 +2125,31 @@ document.addEventListener("DOMContentLoaded", async function () {
     img.alt = leader.name;
     img.className = "leader-image";
 
-    // Add error handling with multiple fallbacks
+    // Add error handling with multiple fallbacks including both case versions
     img.onerror = function () {
       console.warn(
         `Failed to load image at ${this.src}, trying fallback paths...`
       );
 
-      // Try alternative paths
+      // Try alternative paths with both original and lowercase versions
       const fallbackPaths = [
+        // Original case paths
         `./tech_leaders_images/${imageName}.png`,
         `/tech_leaders_images/${imageName}.png`,
         `tech_leaders_images/${imageName}.png`,
-        `/test_tmd_timeline/tech_leaders_images/${imageName}.png`, // Explicit GitHub Pages path
+        `/test_tmd_timeline/tech_leaders_images/${imageName}.png`,
+
+        // Lowercase paths
+        `./tech_leaders_images/${lowerCaseName}.png`,
+        `/tech_leaders_images/${lowerCaseName}.png`,
+        `tech_leaders_images/${lowerCaseName}.png`,
+        `/test_tmd_timeline/tech_leaders_images/${lowerCaseName}.png`,
       ];
 
       tryNextPath(img, fallbackPaths, 0, leader, container);
     };
 
-    // Make the image much larger and add styling directly to it
+    // Make the image larger and add styling directly to it
     img.style.width = "70px"; // INCREASED from 70px to 120px
     img.style.height = "70px"; // INCREASED from 70px to 120px
     img.style.borderRadius = "50%";
@@ -2218,8 +2231,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Create a fallback initial circle
     const fallback = document.createElement("div");
-    fallback.style.width = "120px"; // Same size as image
-    fallback.style.height = "120px"; // Same size as image
+    fallback.style.width = "70px"; // Same size as image
+    fallback.style.height = "70px"; // Same size as image
     fallback.style.borderRadius = "50%";
     fallback.style.backgroundColor = "white";
     fallback.style.border = "4px solid #333";
