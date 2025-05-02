@@ -730,6 +730,14 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     document.getElementById(`view-${view}`).classList.add("active");
 
+    // Clear the details panel when switching views
+    const detailsPanel = document.getElementById("details-panel");
+    if (detailsPanel) {
+      // Hide or reset the details panel
+      detailsPanel.style.display = "none";
+      detailsPanel.innerHTML = "";
+    }
+
     // Show/hide sub-view container based on the view
     const subViewContainer = document.querySelector(".sub-view-container");
     if (subViewContainer) {
@@ -1177,6 +1185,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
+  // Update the icon container in updatePlatformCards to remove circular backgrounds
   function updatePlatformCards() {
     if (!platformCardsContainer) return;
 
@@ -1208,15 +1217,14 @@ document.addEventListener("DOMContentLoaded", async function () {
       const nameContainer = document.createElement("div");
       nameContainer.className = "platform-card-name";
 
-      // Create icon container
+      // Create icon container - REMOVE circle styling
       const iconContainer = document.createElement("span");
-      iconContainer.style.backgroundColor = platform.color;
-      iconContainer.style.width = "75px";
-      iconContainer.style.height = "75px";
-      iconContainer.style.borderRadius = "70%";
       iconContainer.style.display = "inline-flex";
       iconContainer.style.alignItems = "center";
       iconContainer.style.justifyContent = "center";
+      iconContainer.style.width = "75px";
+      iconContainer.style.height = "75px";
+      // Remove background color and border radius (circular styling)
 
       // Handle the icon display correctly
       if (
@@ -1229,13 +1237,17 @@ document.addEventListener("DOMContentLoaded", async function () {
         img.src = platform.icon;
         img.alt = platform.name;
         img.className = "platform-img-icon";
-        img.style.filter = "brightness(0) invert(1)"; // Make icon white
+        img.style.width = "75px";
+        img.style.height = "75px";
+        img.style.objectFit = "contain"; // Show full image without cropping
+        // No color filter needed when we're not using a background
         iconContainer.appendChild(img);
       } else {
         // It's a Font Awesome icon
         const icon = document.createElement("i");
         icon.className = platform.icon;
-        icon.style.color = "#FFFFFF"; // White color for visibility
+        icon.style.color = platform.color; // Use platform color directly
+        icon.style.fontSize = "48px"; // Make icon larger
         iconContainer.appendChild(icon);
       }
 
@@ -2017,7 +2029,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
-  // Enhanced createLeaderDot function to properly show Zuckerberg tints
+  // Updated createLeaderDot function to use plain PNG images without backgrounds
   function createLeaderDot(leader) {
     if (
       !leader.position ||
@@ -2044,39 +2056,34 @@ document.addEventListener("DOMContentLoaded", async function () {
     const y = Math.max(-1, Math.min(1, leader.position.y));
     const xPos = ((x + 1) / 2) * 100;
     const yPos = 100 - ((y + 1) / 2) * 100; // Invert Y for CSS
-    const yOffset = 0; // Changed to 0 for better centering
 
     container.style.left = `${xPos}%`;
-    container.style.top = `${yPos + yOffset}%`;
+    container.style.top = `${yPos}%`;
     container.style.transform = "translate(-50%, -50%)"; // Center the container
 
     // Generate different case versions of the filename
-    // 1. Original case preserving uppercase first letters (e.g., "Adam_Mosseri")
     const originalCaseName = leader.name
       .split(" ")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join("_");
 
-    // 2. All lowercase (e.g., "adam_mosseri")
     const lowerCaseName = leader.name.toLowerCase().replace(/\s+/g, "_");
 
     // Handle Mark Zuckerberg special cases
     let imageName = originalCaseName;
     if (leader.name === "Mark Zuckerberg 2.0") {
-      imageName = "Mark_Zuckerberg"; // Use original case
+      imageName = "Mark_Zuckerberg";
     }
 
-    // FIX: Get the repository name for GitHub Pages
+    // Get the repository name for GitHub Pages
     const repoPath = window.location.pathname.split("/")[1];
     const isGitHubPages = window.location.hostname.includes("github.io");
 
     // Use the correct image path based on hosting environment
     let imagePath;
     if (isGitHubPages && repoPath) {
-      // GitHub Pages path with repository name (try original case first)
       imagePath = `/${repoPath}/tech_leaders_images/${imageName}.png`;
     } else {
-      // Local development path
       imagePath = `./tech_leaders_images/${imageName}.png`;
     }
 
@@ -2085,70 +2092,61 @@ document.addEventListener("DOMContentLoaded", async function () {
     img.alt = leader.name;
     img.className = "leader-image";
 
-    // Add error handling with multiple fallbacks including both case versions
+    // Add error handling with multiple fallbacks
     img.onerror = function () {
       console.warn(
         `Failed to load image at ${this.src}, trying fallback paths...`
       );
-
-      // Try alternative paths with both original and lowercase versions
       const fallbackPaths = [
-        // Original case paths
         `./tech_leaders_images/${imageName}.png`,
         `/tech_leaders_images/${imageName}.png`,
         `tech_leaders_images/${imageName}.png`,
         `/test_tmd_timeline/tech_leaders_images/${imageName}.png`,
-
-        // Lowercase paths
         `./tech_leaders_images/${lowerCaseName}.png`,
         `/tech_leaders_images/${lowerCaseName}.png`,
         `tech_leaders_images/${lowerCaseName}.png`,
         `/test_tmd_timeline/tech_leaders_images/${lowerCaseName}.png`,
       ];
-
       tryNextPath(img, fallbackPaths, 0, leader, container);
     };
 
-    // Make the image larger and add styling directly to it
-    img.style.width = "70px"; // INCREASED to 120px
-    img.style.height = "70px"; // INCREASED to 120px
-    img.style.borderRadius = "50%";
-    img.style.border = "4px solid #333"; // Border directly on image
-    img.style.objectFit = "cover"; // Switch to cover for better face display
-    img.style.backgroundColor = "white"; // Background for transparent images
-    img.style.boxShadow = "0 4px 8px rgba(0,0,0,0.5)"; // Shadow directly on image
+    // Style the image - REMOVE ALL circular styling
+    img.style.width = "75px";
+    img.style.height = "75px";
+    img.style.objectFit = "contain"; // Show full image without cropping
     img.style.display = "block";
+    img.style.transition = "transform 0.3s ease";
 
-    // Add hover effect transition
-    img.style.transition =
-      "transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease";
+    // Add visual distinction for Zuckerberg versions with proper color tinting
+    let baseFilter = "drop-shadow(0 4px 8px rgba(0,0,0,0.5))";
 
-    // Add hover effects with JavaScript
+    if (leader.name === "Mark Zuckerberg") {
+      // Original Zuckerberg - BLUE TINT
+      baseFilter += " sepia(40%) hue-rotate(190deg) saturate(1.5)";
+    } else if (leader.name === "Mark Zuckerberg 2.0") {
+      // Zuckerberg 2.0 - RED TINT
+      baseFilter += " sepia(30%) hue-rotate(320deg) saturate(1.7)";
+    }
+
+    img.style.filter = baseFilter;
+
+    // Add hover effects with JavaScript - preserve the tint during hover
     img.addEventListener("mouseenter", function () {
-      this.style.transform = "scale(1.1)";
-      this.style.boxShadow = "0 8px 16px rgba(0,0,0,0.6)";
-      this.style.borderColor = "#000";
+      this.style.transform = "scale(1.15)";
+      // Keep the same filter, just enhance the shadow
+      this.style.filter = baseFilter.replace(
+        "drop-shadow(0 4px 8px",
+        "drop-shadow(0 8px 16px"
+      );
       this.style.zIndex = "60";
     });
 
     img.addEventListener("mouseleave", function () {
       this.style.transform = "scale(1)";
-      this.style.boxShadow = "0 4px 8px rgba(0,0,0,0.5)";
-      this.style.borderColor = "#333";
+      // Restore original filter
+      this.style.filter = baseFilter;
       this.style.zIndex = "50";
     });
-
-    // Add visual distinction for Zuckerberg versions with proper color tinting
-    if (leader.name === "Mark Zuckerberg") {
-      // Original Zuckerberg (2010-2020) - BLUE TINT
-      if (leader.platform && leader.platform.includes("Meta")) {
-        img.style.filter = "sepia(40%) hue-rotate(190deg) saturate(1.5)"; // Subtle blue tint
-      }
-    }
-    // Zuckerberg 2.0 (2021-2025) - RED TINT
-    else if (leader.name === "Mark Zuckerberg 2.0") {
-      img.style.filter = "sepia(30%) hue-rotate(320deg) saturate(1.7)"; // Subtle red tint
-    }
 
     // Add tooltip with more details
     img.title = `${leader.name} (${leader.platform || ""})`;
@@ -2182,48 +2180,43 @@ document.addEventListener("DOMContentLoaded", async function () {
     };
   }
 
-  // Helper function to create fallback initial
+  // Helper function to create fallback initial without circle background
   function createFallbackInitial(leader, container, imgToReplace) {
     // Remove the failed image
     if (imgToReplace && imgToReplace.parentNode === container) {
       imgToReplace.remove();
     }
 
-    // Create a fallback initial circle
+    // Create a text fallback
     const fallback = document.createElement("div");
-    fallback.style.width = "70px"; // Same size as image
-    fallback.style.height = "70px"; // Same size as image
-    fallback.style.borderRadius = "50%";
-    fallback.style.backgroundColor = "white";
-    fallback.style.border = "4px solid #333";
+    fallback.style.width = "75px";
+    fallback.style.height = "75px";
     fallback.style.display = "flex";
     fallback.style.alignItems = "center";
     fallback.style.justifyContent = "center";
-    fallback.style.boxShadow = "0 4px 8px rgba(0,0,0,0.5)";
-    fallback.style.transition =
-      "transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease";
+    fallback.style.filter = "drop-shadow(2px 2px 4px rgba(0,0,0,0.5))";
+    fallback.style.transition = "transform 0.3s ease";
 
     // Add hover effects to fallback
     fallback.addEventListener("mouseenter", function () {
-      this.style.transform = "scale(1.1)";
-      this.style.boxShadow = "0 8px 16px rgba(0,0,0,0.6)";
-      this.style.borderColor = "#000";
+      this.style.transform = "scale(1.15)";
+      this.style.filter = "drop-shadow(3px 3px 6px rgba(0,0,0,0.7))";
       this.style.zIndex = "60";
     });
 
     fallback.addEventListener("mouseleave", function () {
       this.style.transform = "scale(1)";
-      this.style.boxShadow = "0 4px 8px rgba(0,0,0,0.5)";
-      this.style.borderColor = "#333";
+      this.style.filter = "drop-shadow(2px 2px 4px rgba(0,0,0,0.5))";
       this.style.zIndex = "50";
     });
 
-    // Add leader initial
+    // Add leader initial with styling but no circle background
     const initial = document.createElement("span");
-    initial.textContent = leader.name.charAt(0);
-    initial.style.color = "#333";
+    initial.textContent = leader.name.charAt(0).toUpperCase();
+    initial.style.color = "#000";
     initial.style.fontWeight = "bold";
-    initial.style.fontSize = "50px"; // Larger font for initial
+    initial.style.fontSize = "45px";
+    initial.style.textShadow = "0 2px 4px rgba(0,0,0,0.5)";
     fallback.appendChild(initial);
 
     // Add click event to show details
