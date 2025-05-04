@@ -1,0 +1,23 @@
+Year,Platform,Adjusted X (Left-Right),Adjusted Y (Authoritarian-Libertarian),Reason Summary (EN)
+2016,Twitter,-1,1,"Focused on election content, proliferation of “fake news”; launched Information Quality initiative."
+2016,Gab,0.8,0.5,"August 2016: Gab launches as a ""free speech"" platform in response to perceived censorship on mainstream social media."
+2016,Facebook,-0.2,0.5,May 2016: Facebook updates guidelines to address bias concerns; studies show right-wing content often performs well despite left-leaning perception.
+2018,Twitter,-0.3,0.5,September 2018: Permanent suspension of Alex Jones; 'Impartiality is our guiding principle.' -Jack Dorsey.
+2018,Gab,0.8,0.2,October 2018: Temporarily taken offline following the Pittsburgh synagogue shooting; faces deplatforming from service providers.
+2018,Mastodon,-0.5,0.7,2018: Spike in usership after privacy concerns raised about Facebook (#deletefacebook).
+2019,Mastodon,-0.5,0.7,"2019: 20,000 users migrated from Twitter in India due to complaints about moderation policies."
+2021,Truth Social,0.9,0.2,October 2021: Truth Social is announced by Trump Media & Technology Group (TMTG).
+2022,Truth Social,0.9,0.2,"February 21, 2022: Official launch of Truth Social on Apple's App Store."
+2022,Twitter,0.3,0,"October 2022: Elon Musk acquires Twitter, policy changes begin."
+2022,Twitter,0.3,-0.5,December 2022: Dissolution of Trust and Safety Council.
+2023,Twitter,0.3,-0.5,March 2023: High API fees for developers.
+2023,Twitter,0.3,-0.5,April 2023: NPR labeled as 'US state-affiliated media'.
+2023,Bluesky,-0.5,0.8,"2023: Bluesky launches as a decentralized platform; user base develops with a progressive orientation. Bluesky operates on the AT Protocol, promoting decentralization."
+2023,Threads,-0.2,0.5,"July 2023: Threads launches as a platform focusing on light, non-political content."
+2024,TikTok,0.3,0.2,2024: TikTok's recommendations skewed towards Republican content during the 2024 U.S. presidential race.
+2024,Reddit,-0.3,0.5,2024: Reddit slams 'unethical experiment' that deployed secret AI bots in forum.
+2024,Twitter,0.7,-1,July 2024: Algorithm favors Republican content after Musk endorses Trump.
+2025,Facebook,0.3,-0.2,"January 2025: Nick Clegg departs; Joel Kaplan (Republican) to lead; fact-checking removed, moderation relaxed on controversial topics."
+2025,Instagram,-0.2,0.2,January 2025: Mosseri announces users will see more political content on Instagram and Threads; shift toward 'free expression'. No major leadership change; demographics shape political leanings.
+2025,Threads,0,0.3,"January 2025: Meta announced a rollback of certain content moderation policies across its platforms, including Threads. Removed fact-checkers and introduced a ""Community Notes"" system, aiming to reduce censorship and promote free speech."
+2025,YouTube,-0.3,0,Ongoing through 2025: YouTube algorithm tends toward left-leaning content; no leadership changes.
