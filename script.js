@@ -1404,7 +1404,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       </div>
       
       <div class="card">
-        <h2>Key Events</h2>
+        <h2>Key Events & Bans</h2>
         <div class="timeline-events">
           <div class="events-container">
             ${formatKeyEvents(overallData.timeline)}
