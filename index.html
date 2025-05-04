@@ -349,47 +349,36 @@
     </div>
 
     <!-- Info Modal -->
-    <div id="info-modal" class="modal hidden">
-      <div class="modal-overlay"></div>
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2>About This Visualization</h2>
-          <button id="close-modal" class="btn btn-ghost">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>
-            This interactive visualization tracks the evolution of social media platforms' content moderation policies from 2015-2025, mapping their positions on a political compass based on specific policy decisions, bans, and leadership changes.
-          </p>
-          <h3>How to use:</h3>
-          <ul>
-            <li>Use the timeline slider or press "Play" to see how platforms have shifted their moderation stances over time</li>
-            <li>Filter platforms using the checkboxes to focus on specific companies</li>
-            <li>Click on any platform dot to view detailed information about their policy changes and position</li>
-            <li>Explore key events in the timeline that influenced platform policy shifts</li>
-            <li>Switch between "Platforms" and "Leadership" views using the top navigation buttons</li>
-          </ul>
-          <h3>Understanding the matrix:</h3>
-          <p>
-            <strong>Horizontal axis (Left-Right):</strong> Represents political orientation from -1 (left-leaning policies) to +1 (right-leaning policies), based on content moderation decisions and algorithmic bias.
-          </p>
-          <p>
-            <strong>Vertical axis (Authoritarian-Libertarian):</strong> Measures control approach from -1 (minimal moderation, "free speech" emphasis) to +1 (heavy moderation, centralized control).
-          </p>
-          <h3>What the positions mean:</h3>
-          <ul>
-            <li><strong>Authoritarian Left:</strong> Strong content moderation with progressive policy enforcement</li>
-            <li><strong>Authoritarian Right:</strong> Heavy control favoring conservative viewpoints</li>
-            <li><strong>Libertarian Left:</strong> Minimal moderation with progressive user base</li>
-            <li><strong>Libertarian Right:</strong> "Free speech" approach with conservative-leaning policies</li>
-          </ul>
-          <p class="note">
-            <strong>Data methodology:</strong> Platform positions are based on documented policy changes, content moderation decisions, leadership statements, and major ban events from 2015-2025. Positions reflect relative changes over time rather than absolute political stances.
-          </p>
-        </div>
-      </div>
+<div id="info-modal" class="modal hidden">
+  <div class="modal-overlay"></div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>About This Visualization</h2>
+      <button id="close-modal" class="btn btn-ghost">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
+    <div class="modal-body">
+      <p>Track social media content moderation policies from 2015-2025 on a political compass.</p>
+      
+      <h3>Quick Guide:</h3>
+      <ul>
+        <li>Play/slide timeline to see policy shifts</li>
+        <li>Filter platforms with checkboxes</li>
+        <li>Click dots for details</li>
+        <li>Switch views: Platforms, Policies, Leadership</li>
+      </ul>
+      
+      <h3>Matrix Axes:</h3>
+      <p><strong>Horizontal:</strong> Left (-1) to Right (+1) political leaning</p>
+      <p><strong>Vertical:</strong> Libertarian (-1) to Authoritarian (+1) control</p>
+      
+      <p class="note">
+        <strong>Note:</strong> Positions based on documented policy changes, moderation decisions, and leadership actions.
+      </p>
+    </div>
+  </div>
+</div>
 
     <script src="data.js"></script>
     <script src="script.js"></script>
