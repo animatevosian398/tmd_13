@@ -265,7 +265,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-  // Add this function to update checkbox handlers based on the current view
+  // Fix the updatePlatformCheckboxHandlers function for policy view
   function updatePlatformCheckboxHandlers(viewType) {
     console.log(`Updating checkbox handlers for view: ${viewType}`);
 
@@ -282,24 +282,31 @@ document.addEventListener("DOMContentLoaded", async function () {
       if (viewType === "policies") {
         // Policy view - filter policies by platform
         newCheckbox.addEventListener("change", function () {
-          if (this.checked) {
+          // Important: Get the current state of the checkbox
+          const isChecked = this.checked;
+
+          if (isChecked) {
+            // Add platform to selected platforms if not already there
             if (!selectedPlatforms.includes(platform.id)) {
               selectedPlatforms.push(platform.id);
             }
           } else {
+            // Remove platform from selected platforms
             selectedPlatforms = selectedPlatforms.filter(
               (id) => id !== platform.id
             );
           }
+
           console.log(
-            `Policy checkbox changed for ${platform.id}, selected platforms:`,
+            `Policy checkbox changed for ${platform.id}, checked: ${isChecked}, selected platforms:`,
             selectedPlatforms
           );
+
           // Update policy view to show only relevant policies
           showPolicyView();
         });
       } else {
-        // Platforms view - standard handler
+        // Platforms view - standard handler (unchanged)
         newCheckbox.addEventListener("change", function () {
           if (this.checked) {
             if (!selectedPlatforms.includes(platform.id)) {
@@ -2123,7 +2130,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-  // Update the showPolicyView function to implement filtering
+  // Update the showPolicyView function to correctly handle empty selections
   function showPolicyView() {
     if (!window.policyData || policyData.length === 0) {
       console.error("No policy data available");
@@ -2163,11 +2170,15 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     console.log("Platform name mapping:", platformNameMap);
 
+    // If no platforms are selected, show empty state instead of all policies
+    if (selectedPlatforms.length === 0) {
+      matrix.innerHTML =
+        '<div class="empty-state-message" style="text-align:center;padding:20px;color:#777;">Select platforms to see their policies</div>';
+      return;
+    }
+
     // Filter policies based on selected platforms
     const filteredPolicies = policyData.filter((policy) => {
-      // If no platforms are selected, show all policies
-      if (selectedPlatforms.length === 0) return true;
-
       // If policy has no platforms defined, don't show it when filtering
       if (!policy.platforms || policy.platforms.length === 0) return false;
 
