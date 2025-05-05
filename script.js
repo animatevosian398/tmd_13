@@ -601,6 +601,14 @@ document.addEventListener("DOMContentLoaded", async function () {
       const position = getPlatformPosition(platform.id);
       if (!position) return; // Skip if no position data for current year
 
+      // Check if the platform's first appearance year is after the current year
+      const firstAppearanceYear = Math.min(
+        ...platform.positions.map((pos) => pos.year)
+      );
+      if (currentYear < firstAppearanceYear) {
+        return; // Skip rendering if the platform hasn't appeared yet
+      }
+
       // Create platform dot
       const dot = document.createElement("div");
       dot.className = "platform-dot";
@@ -608,7 +616,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       dot.setAttribute("data-platform-id", platform.id);
 
       // Position the dot (convert -1,1 scale to percentage)
-      // FIXED: Adjust Y-coordinate calculation to properly center (0,0)
       const xPos = ((position.x + 1) / 2) * 100;
       const yPos = 100 - ((position.y + 1) / 2) * 100; // Invert Y
 
@@ -635,15 +642,20 @@ document.addEventListener("DOMContentLoaded", async function () {
         const img = document.createElement("img");
         img.src = platform.icon;
         img.alt = platform.name;
-        // Don't add filters that would modify the image colors
-        img.style.filter = "drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5))";
+        img.style.filter =
+          currentYear >= firstAppearanceYear
+            ? "drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5))"
+            : "grayscale(100%)"; // Grey out if before first appearance year
         dot.appendChild(img);
       } else {
         // It's a Font Awesome icon
         const icon = document.createElement("i");
         icon.className = platform.icon;
-        icon.style.color = platform.color; // Use platform color directly for consistency
-        icon.style.filter = "drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5))";
+        icon.style.color = platform.color;
+        icon.style.filter =
+          currentYear >= firstAppearanceYear
+            ? "drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5))"
+            : "grayscale(100%)"; // Grey out if before first appearance year
         dot.appendChild(icon);
       }
 
@@ -1002,7 +1014,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             <div class="event-title">Key Event</div>
             <div class="event-year">${event.year}</div>
           </div>
-          <p class="event-description">${event.description}</p>
+          <p class="event-description">${event.trim()}</p>
         </div>
       `
         )

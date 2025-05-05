@@ -1160,3 +1160,8 @@ input[type="range"]::-moz-range-thumb {
     aspect-ratio: 1.2 / 1; /* Slightly less wide on smaller screens */
   }
 }
+
+.platform-dot.greyed-out {
+  opacity: 0.3;
+  pointer-events: none;
+}

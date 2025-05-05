@@ -5,6 +5,7 @@ const platformData = [
     color: "#1DA1F2",
     icon: "fa-brands fa-twitter",
     description: "Global microblogging platform acquired by Elon Musk in 2022.",
+    firstAppearanceYear: 2006,
     positions: [
       {
         year: 2015,
@@ -91,6 +92,7 @@ const platformData = [
     color: "#1877F2",
     icon: "fa-brands fa-facebook-f",
     description: "The largest social network worldwide, owned by Meta.",
+    firstAppearanceYear: 2004,
     positions: [
       {
         year: 2015,
@@ -178,6 +180,7 @@ const platformData = [
     icon: "./logos/gab.png",
     description:
       "Social media platform known for its stance on free speech and minimal content moderation.",
+    firstAppearanceYear: 2016,
     positions: [
       {
         year: 2016,
@@ -257,6 +260,7 @@ const platformData = [
     color: "#563ACC",
     icon: "fa-brands fa-mastodon",
     description: "Decentralized, open-source social network.",
+    firstAppearanceYear: 2016,
     positions: [
       {
         year: 2016,
@@ -316,6 +320,7 @@ const platformData = [
     icon: "./logos/truth-social-icon-2048x2048-323r6m8b.png",
     description:
       "Social media platform founded by Trump Media & Technology Group as a response to content moderation on mainstream platforms.",
+    firstAppearanceYear: 2021,
     positions: [
       {
         year: 2021,
@@ -360,6 +365,7 @@ const platformData = [
     color: "#0285FF",
     icon: "./logos/Bluesky_Logo.png",
     description: "Decentralized social network that emerged from Twitter R&D.",
+    firstAppearanceYear: 2021,
     positions: [
       {
         year: 2021,
@@ -398,6 +404,7 @@ const platformData = [
     icon: "./logos/threadslogo.png",
     description:
       "Text-based conversation app from Meta, launched as a Twitter competitor.",
+    firstAppearanceYear: 2023,
     positions: [
       {
         year: 2023,
@@ -428,6 +435,7 @@ const platformData = [
     color: "#69C9D0",
     icon: "fa-brands fa-tiktok",
     description: "Short-form video platform owned by ByteDance.",
+    firstAppearanceYear: 2016,
     positions: [
       {
         year: 2015,
@@ -486,6 +494,7 @@ const platformData = [
     color: "#FF4500",
     icon: "fa-brands fa-reddit-alien",
     description: "Community-focused discussion platform with subreddits.",
+    firstAppearanceYear: 2005,
     positions: [
       {
         year: 2015,
