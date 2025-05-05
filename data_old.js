@@ -1,4 +1,4 @@
-const platformData = [
+const platformsData = [
   {
     id: "twitter",
     name: "X (Twitter)",
@@ -7,81 +7,80 @@ const platformData = [
     description: "Global microblogging platform acquired by Elon Musk in 2022.",
     positions: [
       {
-        year: 2015,
-        x: -0.3,
-        y: 0.2,
-        description:
-          "Platform begins struggling with harassment concerns; introduces 'quality filter' and abuse reporting improvements.",
-      },
-      {
         year: 2016,
         x: -0.4,
-        y: 0.3,
+        y: 0.4,
         description:
-          "Misinformation surges during U.S. election; Twitter suspends several far-right accounts and launches Information Quality initiative.",
+          "Focused on election content, proliferation of 'fake news'; launched Information Quality initiative.",
       },
       {
         year: 2017,
         x: -0.5,
-        y: 0.4,
+        y: 0.5,
         description:
-          "Begins labeling state-affiliated media and expands rules against hateful conduct and harassment.",
+          "Continued strong content moderation policies, began labeling state-affiliated media.",
       },
       {
         year: 2018,
         x: -0.3,
         y: 0.5,
         description:
-          "Permanently bans Alex Jones; Dorsey emphasizes platform impartiality amid rising pressure to moderate harmful content.",
+          "September 2018: Permanent suspension of Alex Jones; 'Impartiality is our guiding principle.' -Jack Dorsey.",
       },
       {
         year: 2019,
         x: -0.2,
         y: 0.4,
         description:
-          "Enforcement continues with clearer rules, but some moderation remains inconsistent; focus shifts toward policy transparency.",
+          "Refinement of content policies, less aggressive enforcement.",
       },
       {
         year: 2020,
         x: -0.1,
         y: 0.6,
         description:
-          "Implements COVID-19 and election misinformation labels; Trump tweets are flagged for misleading claims.",
+          "Trump tweets labeled, increased fact-checking, COVID-19 misinformation policies.",
       },
       {
         year: 2021,
-        x: 0.1,
-        y: 0.5,
+        x: 0.2,
+        y: 0.3,
         description:
-          "Following Jan. 6 Capitol riot, Twitter permanently bans Trump; Trust & Safety governance praised by civil society groups.",
+          "January: Trump permanently banned after Capitol riot, signaling major policy shift.",
       },
       {
         year: 2022,
         x: 0.3,
-        y: 0.2,
+        y: 0,
         description:
-          "Elon Musk acquires Twitter in October; fires executives, reinstates banned accounts, and dissolves Trust and Safety Council.",
+          "October 2022: Elon Musk acquires Twitter, policy changes begin.",
+      },
+      {
+        year: 2022,
+        x: 0.3,
+        y: -0.5,
+        description: "December 2022: Dissolution of Trust and Safety Council.",
       },
       {
         year: 2023,
-        x: 0.4,
+        x: 0.3,
         y: -0.5,
         description:
-          "Under Musk, content moderation is significantly reduced; legacy verification removed, state-affiliated labels spark backlash (e.g., NPR).",
+          "March 2023: High API fees for developers; April 2023: NPR labeled as 'US state-affiliated media'.",
       },
       {
         year: 2024,
         x: 0.7,
-        y: -0.9,
+        y: -1,
         description:
-          "Platform heavily promotes right-wing content algorithmically; Musk publicly endorses Trump; moderation becomes near-anarchic.",
+          "July 2024: Algorithm favors Republican content after Musk endorses Trump.",
       },
       {
         year: 2025,
         x: 0.8,
         y: -0.9,
         description:
-          "X continues as a minimally moderated, Musk-controlled platform embracing 'free speech absolutism' and algorithmic opacity.",
+          "Near-complete shift to minimal moderation, 'free speech absolutism' under Musk.",
       },
     ],
   },
@@ -93,81 +92,60 @@ const platformData = [
     description: "The largest social network worldwide, owned by Meta.",
     positions: [
       {
-        year: 2015,
-        x: 0.0,
-        y: -0.2,
-        description:
-          "Facebook prioritizes engagement-based ranking in the News Feed, unintentionally amplifying viral, emotional, and often partisan content without active intervention.",
-      },
-      {
         year: 2016,
-        x: 0.3,
-        y: -0.1,
+        x: -0.2,
+        y: 0.5,
         description:
-          "Following the U.S. election, Facebook faces backlash for spreading misinformation and fake news; Zuckerberg initially denies platform's influence.",
-      },
-      {
-        year: 2017,
-        x: 0.2,
-        y: 0.1,
-        description:
-          "Facebook begins addressing coordinated inauthentic behavior and state-sponsored interference, including disclosures to Congress on Russian campaigns.",
+          "May 2016: Facebook updates guidelines to address bias concerns; studies show right-wing content often performs well despite left-leaning perception.",
       },
       {
         year: 2018,
-        x: 0.1,
-        y: 0.3,
+        x: -0.1,
+        y: 0.6,
         description:
-          "Cambridge Analytica scandal triggers global outrage; Facebook shifts to promoting 'meaningful interactions' and begins limiting news content.",
+          "Cambridge Analytica scandal leads to increased scrutiny and more content moderation.",
       },
       {
         year: 2019,
-        x: 0.1,
-        y: 0.4,
+        x: 0,
+        y: 0.5,
         description:
-          "Facebook expands fact-checking and political ad transparency, while facing criticism from both right and left on perceived bias and inaction.",
+          "Political ad policies debated, platform attempts neutrality while facing criticism from all sides.",
       },
       {
         year: 2020,
-        x: -0.1,
+        x: 0.1,
         y: 0.5,
         description:
-          "Cracks down on QAnon, COVID misinformation, and election denial content. Labels Trump posts but avoids removal until 2021.",
+          "Struggles with election misinformation, implements fact-checking but faces criticism for not going far enough.",
       },
       {
         year: 2021,
-        x: -0.2,
-        y: 0.7,
+        x: 0.2,
+        y: 0.4,
         description:
-          "After the Capitol riot, Facebook suspends Trump and relies on its Oversight Board for legitimacy in tough decisions; moderation becomes more proactive.",
+          "Also bans Trump, but creates Oversight Board to externalize difficult content decisions.",
       },
       {
         year: 2022,
-        x: -0.1,
-        y: 0.8,
+        x: 0.3,
+        y: 0.3,
         description:
-          "Whistleblower Frances Haugen reveals Facebook’s internal data on polarization and harms; Meta promises changes but maintains strict content governance.",
-      },
-      {
-        year: 2023,
-        x: -0.1,
-        y: 0.8,
-        description:
-          "Moderation practices remain centralized; Meta expands AI-driven content filtering, raising concerns over algorithmic opacity and control.",
+          "Meta cuts back on content moderation staff amid economic downturn.",
       },
       {
         year: 2024,
-        x: 0.0,
-        y: 0.7,
+        x: 0.3,
+        y: 0.1,
         description:
-          "Meta scales back political content visibility in the feed, citing user preference; some see this as quietly muting left-leaning civic discourse.",
+          "Platform adjusts algorithms, increasingly viewed as favorable to right-wing content.",
       },
       {
         year: 2025,
-        x: 0.0,
-        y: 0.6,
+        x: 0.3,
+        y: -0.2,
         description:
-          "Facebook refocuses on creator tools and AI assistants; moderation relaxes slightly, but governance remains highly centralized.",
+          "January 2025: Nick Clegg departs; Joel Kaplan (Republican) to lead; fact-checking removed, moderation relaxed on controversial topics.",
       },
     ],
   },
@@ -182,72 +160,23 @@ const platformData = [
       {
         year: 2016,
         x: 0.8,
-        y: -0.7,
+        y: 0.5,
         description:
-          "August 2016: Gab launches as a free speech alternative to Twitter, quickly attracting users banned from mainstream platforms, including alt-right figures.",
-      },
-      {
-        year: 2017,
-        x: 0.9,
-        y: -0.6,
-        description:
-          "Gab gains notoriety as a haven for far-right influencers and conspiracy theorists. App banned from Apple and Google stores over hate speech concerns.",
+          "August 2016: Gab launches as a 'free speech' platform in response to perceived censorship on mainstream social media.",
       },
       {
         year: 2018,
-        x: 1.0,
-        y: -0.5,
-        description:
-          "October 2018: Deplatformed by hosting and payment providers after the Pittsburgh synagogue shooter used Gab to post prior to the attack. Gab recovers using its own infrastructure.",
-      },
-      {
-        year: 2019,
-        x: 0.9,
-        y: -0.3,
-        description:
-          "Launches Dissenter browser extension, doubling down on its anti-censorship branding. Still largely unmoderated but focused on decentralization.",
-      },
-      {
-        year: 2020,
-        x: 1.0,
-        y: -0.2,
-        description:
-          "Absorbs influx of pro-Trump users as Twitter cracks down on election misinformation. Becomes key platform for election denial communities.",
-      },
-      {
-        year: 2021,
-        x: 1.0,
-        y: -0.1,
-        description:
-          "Refuses to remove Trump-related content after Jan. 6. CEO promotes Christian nationalism; platform continues hands-off moderation approach.",
-      },
-      {
-        year: 2022,
-        x: 1.0,
-        y: 0.0,
-        description:
-          "Slight increase in moderation to address spam and bots. Still ideologically far-right with extremely limited content governance.",
-      },
-      {
-        year: 2023,
-        x: 1.0,
+        x: 0.8,
         y: 0.2,
         description:
-          "Introduces filtering features and basic UX controls but maintains core libertarian structure. User base becomes more insular.",
-      },
-      {
-        year: 2024,
-        x: 1.0,
-        y: 0.2,
-        description:
-          "Platform stagnates in growth as users migrate to X under Musk. Still retains identity as a hardline 'free speech' sanctuary.",
+          "October 2018: Temporarily taken offline following the Pittsburgh synagogue shooting; faces deplatforming from service providers.",
       },
       {
         year: 2025,
         x: 0.9,
-        y: 0.2,
+        y: -0.7,
         description:
-          "Continues to serve niche right-wing audience; minimal moderation, but slightly more structured governance than early years.",
+          "Maintains its position as a right-wing, minimal moderation platform.",
       },
     ],
   },
@@ -259,53 +188,25 @@ const platformData = [
     description: "Decentralized, open-source social network.",
     positions: [
       {
-        year: 2016,
-        x: -0.5,
-        y: -0.8,
-        description:
-          "October 2016: Mastodon is launched by Eugen Rochko as a decentralized alternative to Twitter, emphasizing federation and local control.",
-      },
-      {
         year: 2018,
         x: -0.5,
         y: -0.7,
         description:
-          "Experiences a spike in adoption during the #deletefacebook movement, appealing to users seeking non-corporate, privacy-focused platforms.",
+          "2018: Spike in usership after privacy concerns raised about Facebook (#deletefacebook).",
       },
       {
         year: 2019,
         x: -0.5,
         y: -0.7,
         description:
-          "20,000 Indian users migrate to Mastodon after alleging Twitter suppressed Dalit voices, reinforcing Mastodon's appeal to activists and marginalized communities.",
-      },
-      {
-        year: 2022,
-        x: -0.6,
-        y: -0.7,
-        description:
-          "Post–Musk acquisition of Twitter, Mastodon sees explosive growth. While infrastructure struggles, it becomes a haven for journalists, academics, and left-libertarian users.",
-      },
-      {
-        year: 2023,
-        x: -0.6,
-        y: -0.6,
-        description:
-          "Continues growth through fediverse expansion. Some moderation challenges emerge between instances, but governance remains decentralized and community-led.",
-      },
-      {
-        year: 2024,
-        x: -0.5,
-        y: -0.6,
-        description:
-          "Conversations about interoperability and moderation tooling dominate discourse. Perceived as ideologically left-libertarian but fractured by instance culture.",
+          "2019: 20,000 users migrated from Twitter in India due to complaints about moderation policies.",
       },
       {
         year: 2025,
         x: -0.5,
-        y: -0.6,
+        y: -0.7,
         description:
-          "Solidifies its niche as a federated, non-algorithmic alternative to centralized platforms. Moderation varies by instance, reinforcing libertarian structure.",
+          "Continues to be a decentralized alternative, attracting users seeking alternatives to mainstream platforms.",
       },
     ],
   },
@@ -315,42 +216,28 @@ const platformData = [
     color: "#0074CC",
     icon: "./logos/truth-social-icon-2048x2048-323r6m8b.png",
     description:
-      "Social media platform founded by Trump Media & Technology Group as a response to content moderation on mainstream platforms.",
+      "Social media platform founded by Trump Media & Technology Group.",
     positions: [
       {
         year: 2021,
         x: 0.9,
         y: -0.3,
         description:
-          "October 2021: Truth Social is announced as part of Trump Media & Technology Group (TMTG), pitched as a free speech alternative to 'Big Tech censorship.'",
+          "October 2021: Truth Social is announced by Trump Media & Technology Group (TMTG).",
       },
       {
         year: 2022,
         x: 0.9,
         y: -0.3,
         description:
-          "February 21, 2022: Official launch on Apple's App Store. Platform is ideologically aligned with Trump supporters and bans content that opposes its values (e.g., Jan. 6 Committee posts).",
-      },
-      {
-        year: 2023,
-        x: 0.9,
-        y: -0.4,
-        description:
-          "Platform usage remains relatively small but highly politically homogenous. Moderation still minimal but includes selective enforcement against left-leaning users.",
-      },
-      {
-        year: 2024,
-        x: 0.9,
-        y: -0.5,
-        description:
-          "Amid 2024 election cycle, Truth Social becomes an echo chamber for MAGA-aligned narratives. Minimal trust & safety infrastructure; engagement driven by grievance content.",
+          "February 21, 2022: Official launch of Truth Social on Apple's App Store.",
       },
       {
         year: 2025,
         x: 0.9,
         y: -0.5,
         description:
-          "Continues as a niche platform for Trump loyalists. Functionally libertarian on speech within ideological bounds, but excludes dissenting voices.",
+          "Continues as platform for Trump supporters with minimal content moderation.",
       },
     ],
   },
@@ -362,32 +249,18 @@ const platformData = [
     description: "Decentralized social network that emerged from Twitter R&D.",
     positions: [
       {
-        year: 2021,
-        x: -0.6,
+        year: 2023,
+        x: -0.5,
         y: -0.8,
         description:
-          "Bluesky formally spins out from Twitter as an independent public benefit corporation, with funding to build the AT Protocol for decentralized social networking.",
-      },
-      {
-        year: 2023,
-        x: -0.4,
-        y: -0.7,
-        description:
-          "Closed beta launches; platform quickly attracts tech critics, journalists, and progressive users. Emphasizes open protocol, composable moderation, and non-algorithmic feeds.",
-      },
-      {
-        year: 2024,
-        x: -0.3,
-        y: -0.6,
-        description:
-          "Opens to the public in July 2024. Faces early governance and moderation challenges (e.g., dogpiling, slurs in usernames), but retains decentralized, opt-in tooling philosophy.",
+          "2023: Bluesky launches as a decentralized platform; user base develops with a progressive orientation. Bluesky operates on the AT Protocol, promoting decentralization.",
       },
       {
         year: 2025,
-        x: -0.2,
-        y: -0.5,
+        x: -0.5,
+        y: -0.8,
         description:
-          "Continues refining moderation services (e.g., labeling, anti-harassment tooling). Perceived as left-libertarian, with increased user diversity and pressure for broader governance.",
+          "Maintains decentralized, user-controlled moderation approach.",
       },
     ],
   },
@@ -404,21 +277,14 @@ const platformData = [
         x: -0.2,
         y: 0.5,
         description:
-          "July 2023: Threads launches with heavy moderation and content throttling policies to avoid political controversy. Criticized for lack of reach, especially among news and political voices.",
-      },
-      {
-        year: 2024,
-        x: -0.1,
-        y: 0.5,
-        description:
-          "Meta continues to suppress political content visibility across Threads to protect brand safety. Perception grows that Threads is sanitized and non-confrontational.",
+          "July 2023: Threads launches as a platform focusing on light, non-political content.",
       },
       {
         year: 2025,
-        x: 0.0,
+        x: 0,
         y: 0.3,
         description:
-          "January 2025: Meta rolls back fact-checking programs and introduces a 'Community Notes'-like system. Platform shifts toward centrist expression with lower central intervention, but retains top-down algorithmic control.",
+          "January 2025: Meta announced a rollback of certain content moderation policies across its platforms, including Threads. Removed fact-checkers and introduced a 'Community Notes' system, aiming to reduce censorship and promote free speech.",
       },
     ],
   },
@@ -434,49 +300,49 @@ const platformData = [
         x: -0.2,
         y: 0.3,
         description:
-          "Early Musical.ly era: Primarily entertainment-focused with minimal moderation; user base skews young and creative.",
+          "Early TikTok/Musical.ly era: Focus on creative content with some moderation.",
       },
       {
         year: 2018,
         x: -0.2,
         y: 0.3,
         description:
-          "Post–ByteDance merger, TikTok grows rapidly. Moderation policies emerge, with algorithmic suppression of certain political and marginalized voices (e.g., disabled, LGBTQ+).",
+          "Post-merger: Maintained progressive user base with algorithmic content moderation.",
       },
       {
         year: 2020,
         x: -0.1,
         y: 0.2,
         description:
-          "Amid Trump administration scrutiny, TikTok is accused of censoring pro–Hong Kong and Black Lives Matter content while also becoming a platform for youth activism.",
+          "Faced scrutiny during Trump administration; accused of censoring content critical of China.",
       },
       {
         year: 2021,
         x: -0.1,
         y: 0.2,
         description:
-          "Continues to walk a tightrope between digital activism (e.g., climate justice, Palestine) and Chinese influence concerns. Moderation remains opaque.",
+          "Continued content moderation; removed misinformation while supporting digital activism.",
       },
       {
         year: 2023,
         x: -0.1,
         y: 0.2,
         description:
-          "Moderation remains moderate, with growing U.S. government scrutiny over data practices and national security risks. Algorithm continues to depoliticize feeds for most users.",
+          "Maintained moderate content policies while facing political pressure.",
       },
       {
         year: 2024,
         x: 0.3,
         y: 0.7,
         description:
-          "During U.S. election year, reports emerge that TikTok’s algorithm subtly favors right-wing influencers and depoliticizes liberal content, raising concerns over covert moderation shifts.",
+          "2024: TikTok's recommendations skewed towards Republican content during the 2024 U.S. presidential race.",
       },
       {
         year: 2025,
-        x: 0.0,
-        y: 0.0,
+        x: 0,
+        y: 0,
         description:
-          "Facing a potential U.S. ban, TikTok's future becomes uncertain. Platform tries to rebrand as neutral and apolitical to avoid regulatory action.",
+          "Ban implementation deadline hits; platform in uncertain position.",
       },
     ],
   },
@@ -488,81 +354,57 @@ const platformData = [
     description: "Community-focused discussion platform with subreddits.",
     positions: [
       {
-        year: 2015,
-        x: -0.2,
-        y: -0.6,
-        description:
-          "Reddit bans r/fatpeoplehate and faces backlash over the Ellen Pao incident, reinforcing a libertarian free-speech culture with left-leaning moderation.",
-      },
-      {
-        year: 2016,
-        x: 0.0,
-        y: -0.5,
-        description:
-          "r/The_Donald rises to prominence, dominating r/all through upvote brigading, balancing Reddit's political tone.",
-      },
-      {
-        year: 2017,
-        x: 0.1,
-        y: -0.3,
-        description:
-          "Reddit bans r/altright and introduces quarantines, signaling growing centralized oversight.",
-      },
-      {
-        year: 2018,
-        x: -0.1,
-        y: -0.2,
-        description:
-          "Bans on r/Incels and r/Braincels mark a shift toward enforcing anti-hate policies.",
-      },
-      {
-        year: 2019,
-        x: -0.1,
-        y: -0.1,
-        description:
-          "Bans on r/watchpeopledie and other toxic subs continue; community moderation norms remain strong.",
-      },
-      {
         year: 2020,
-        x: -0.2,
-        y: 0.2,
-        description:
-          "Reddit bans r/The_Donald and thousands of QAnon-aligned communities amid rising pressure for content accountability.",
-      },
-      {
-        year: 2021,
-        x: -0.3,
+        x: -0.4,
         y: 0.3,
         description:
-          "Post–Capitol riot enforcement and vaccine misinformation takedowns increase centralized moderation.",
-      },
-      {
-        year: 2022,
-        x: -0.3,
-        y: 0.4,
-        description:
-          "Expansion of automated moderation tools and anti-hate policies continue trend toward top-down governance.",
+          "Bans r/The_Donald and other controversial subreddits under new hate speech policies.",
       },
       {
         year: 2023,
-        x: -0.2,
-        y: 0.5,
+        x: -0.3,
+        y: 0.4,
         description:
-          "API pricing protests lead to mass subreddit blackouts; Reddit faces backlash for centralizing control.",
+          "API pricing controversy leads to subreddit blackouts, tensions with community moderators.",
       },
       {
         year: 2024,
-        x: -0.1,
-        y: 0.6,
-        description:
-          "Reddit criticized for suppressing transparency around platform-wide AI experiments and ad-centric changes.",
-      },
-      {
-        year: 2025,
-        x: 0.0,
+        x: -0.3,
         y: 0.5,
         description:
-          "Moderation remains centralized, but overt political affiliations soften post-election; Reddit perceived as politically centrist, structurally authoritarian.",
+          "2024: Reddit slams 'unethical experiment' that deployed secret AI bots in forum.",
+      },
+    ],
+  },
+  {
+    id: "instagram",
+    name: "Instagram",
+    color: "#E1306C",
+    icon: "fa-brands fa-instagram",
+    description: "Photo and video sharing social network owned by Meta.",
+    positions: [
+      {
+        year: 2025,
+        x: -0.2,
+        y: 0.2,
+        description:
+          "January 2025: Mosseri announces users will see more political content on Instagram and Threads; shift toward 'free expression'. No major leadership change; demographics shape political leanings.",
+      },
+    ],
+  },
+  {
+    id: "youtube",
+    name: "YouTube",
+    color: "#FF0000",
+    icon: "fa-brands fa-youtube",
+    description: "Video sharing platform owned by Google.",
+    positions: [
+      {
+        year: 2025,
+        x: -0.3,
+        y: 0,
+        description:
+          "Ongoing through 2025: YouTube algorithm tends toward left-leaning content; no leadership changes.",
       },
     ],
   },
