@@ -2104,6 +2104,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             y: y,
             platforms: platformsList,
             quadrant: getQuadrant(x, y),
+            details: row[4] ? row[4].replace(/"/g, "") : "", // Add details field
           };
 
           policyMappings.push(policy);
@@ -2426,13 +2427,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               </div>
             </div>
             <div class="detail-description">
-              <p>This policy feature is positioned in the ${
-                policy.quadrant
-              } quadrant of the political compass.</p>
-              
-              <p>Features in this quadrant tend to ${getQuadrantDescription(
-                policy.quadrant
-              )}</p>
+              <p>${policy.details || "No additional details available."}</p>
             </div>
           </div>
         </div>

@@ -1,21 +1,21 @@
-Policy,X (Scaled),Y (Scaled),Platforms
-Content Moderation,-0.3,0.8,"X (Twitter),Facebook,Instagram,YouTube,TikTok,Reddit,Bluesky,Threads,Truth Social"
-Platform-led Content Labeling,-0.5,0.6,"X (Twitter),Facebook,Instagram,YouTube,TikTok,Bluesky,Threads"
-Identity Verification,-0.2,0.7,"Facebook,Instagram,YouTube,TikTok,Threads,Truth Social"
-Shadow-banning,-0.1,0.5,"X (Twitter),Facebook,Instagram,YouTube,TikTok,Reddit,Bluesky,Threads"
-Pro-social Nudges,-0.6,0.3,"X (Twitter),Facebook,Instagram,YouTube,TikTok,Threads"
-Right to be Forgotten,-0.7,-0.2,"Facebook,Instagram,YouTube,TikTok,Threads"
-Decentralized Governance,-0.9,-0.9,"Gab,Bluesky"
-Community Moderators,0,-0.1,"Reddit,Gab,Bluesky"
-Platform Interoperability,-0.2,-0.3,"Gab,Bluesky,Threads"
-Community Notes,-0.1,-0.4,"X (Twitter),Facebook,Instagram,Bluesky,Threads"
-Emoji Reactions,0.4,-0.3,"X (Twitter),Facebook,Instagram,YouTube,TikTok,Reddit,Gab,Bluesky,Threads,Truth Social"
-Private Groups,0.5,-0.5,"X (Twitter),Facebook,Instagram,YouTube,TikTok,Reddit,Gab,Bluesky,Threads,Truth Social"
-End-to-End Encryption,0.6,-0.6,"TikTok"
-User Anonymity,0.7,-0.8,"X (Twitter),Reddit,Gab,Bluesky"
-Engagement-based Algorithm Recs,0.2,0.5,"X (Twitter),Facebook,Instagram,YouTube,TikTok,Threads,Truth Social"
-Account Suspensions,0,0.4,"X (Twitter),Facebook,Instagram,YouTube,TikTok,Reddit,Bluesky,Threads,Truth Social"
-Politically Sponsored / Pinned Posts,0.5,0.7,"X (Twitter),Facebook,Instagram,YouTube,TikTok,Threads,Truth Social"
-Micro-targeted Political Ads,0.6,0.6,"X (Twitter),Facebook,Instagram,YouTube,TikTok,Threads,Truth Social"
-Content Surveillance,0.8,0.9,"X (Twitter),Facebook,Instagram,YouTube,TikTok,Threads"
-Disabling Fact-Checking,0.7,-0.7,"X (Twitter),Facebook,Instagram,Gab,Threads,Truth Social"
+Policy,X (Scaled),Y (Scaled),Platforms,Details
+Content Moderation,-0.3,0.8,"X (Twitter),Facebook,Instagram,YouTube,TikTok,Reddit,Bluesky,Threads,Truth Social","Centrally enforced rules to maintain community norms, often aimed at protecting marginalized groups."
+Platform-led Content Labeling,-0.5,0.6,"X (Twitter),Facebook,Instagram,YouTube,TikTok,Bluesky,Threads","Top-down efforts to control misinformation or hate speech, reflecting collective responsibility."
+Identity Verification,-0.2,0.7,"Facebook,Instagram,YouTube,TikTok,Threads,Truth Social","Limits anonymity in favor of accountability and community safety, with strong centralized enforcement."
+Shadow-banning,-0.1,0.5,"X (Twitter),Facebook,Instagram,YouTube,TikTok,Reddit,Bluesky,Threads","Covert content suppression to preserve platform norms, without user transparency."
+Pro-social Nudges,-0.6,0.3,"X (Twitter),Facebook,Instagram,YouTube,TikTok,Threads","Subtle behavior shaping for collective benefit, driven by platform-level value judgments."
+Right to be Forgotten,-0.7,-0.2,"Facebook,Instagram,YouTube,TikTok,Threads",Emphasizes user rights and collective values like dignity and privacy.
+Decentralized Governance,-0.9,-0.9,"Gab,Bluesky","Shifts control from corporations to users, aligning with democratic, anti-authoritarian ideals."
+Community Moderators,0,-0.1,"Reddit,Gab,Bluesky","Peer-driven enforcement rather than centralized moderation, aligned with participatory governance."
+Platform Interoperability,-0.2,-0.3,"Gab,Bluesky,Threads","Empowers users to move freely across ecosystems, limiting centralized platform lock-in."
+Community Notes,-0.1,-0.4,"X (Twitter),Facebook,Instagram,Bluesky,Threads","Crowdsourced corrections to misinformation, emphasizing bottom-up collective accountability."
+Emoji Reactions,0.4,-0.3,"X (Twitter),Facebook,Instagram,YouTube,TikTok,Reddit,Gab,Bluesky,Threads,Truth Social",Open emotional expression tools that can drive engagement without moderation.
+Private Groups,0.5,-0.5,"X (Twitter),Facebook,Instagram,YouTube,TikTok,Reddit,Gab,Bluesky,Threads,Truth Social",Supports freedom of association and speech with minimal intervention.
+End-to-End Encryption,0.6,-0.6,TikTok,Empowers individual privacy and resists centralized surveillance or control.
+User Anonymity,0.7,-0.8,"X (Twitter),Reddit,Gab,Bluesky","Upholds individual autonomy and speech freedom, often at the cost of accountability."
+Engagement-based Algorithm Recommendations,0.2,0.5,"X (Twitter),Facebook,Instagram,YouTube,TikTok,Threads,Truth Social","Centralized ranking that maximizes attention, often driving polarizing or harmful content."
+Account Suspensions,0,0.4,"X (Twitter),Facebook,Instagram,YouTube,TikTok,Reddit,Bluesky,Threads,Truth Social",A blunt enforcement tool that reflects top-down decision-making over individual expression.
+Politically Sponsored / Pinned Posts,0.5,0.7,"X (Twitter),Facebook,Instagram,YouTube,TikTok,Threads,Truth Social","Prioritized messaging often imposed by state or corporate entities, without user consent."
+Micro-targeted Political Ads,0.6,0.6,"X (Twitter),Facebook,Instagram,YouTube,TikTok,Threads,Truth Social",Uses centralized data control to influence individuals with unregulated precision.
+Content Surveillance,0.8,0.9,"X (Twitter),Facebook,Instagram,YouTube,TikTok,Threads","Intensive data collection for control or profit, often justified by security or regulatory goals."
+Disabling Fact-Checking,0.7,-0.7,"X (Twitter),Facebook,Instagram,Gab,Threads,Truth Social",Removes institutional oversight in favor of unrestricted speech.
